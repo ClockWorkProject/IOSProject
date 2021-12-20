@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D431BFA27709E330067D951 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431BF927709E330067D951 /* Color.swift */; };
 		6DECD2D22770900A007A13DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2D12770900A007A13DD /* AppDelegate.swift */; };
 		6DECD2D42770900A007A13DD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2D32770900A007A13DD /* SceneDelegate.swift */; };
 		6DECD2D62770900A007A13DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2D52770900A007A13DD /* ViewController.swift */; };
@@ -14,9 +15,11 @@
 		6DECD2DC2770900A007A13DD /* ClockWork.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2DA2770900A007A13DD /* ClockWork.xcdatamodeld */; };
 		6DECD2DE27709010007A13DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DECD2DD27709010007A13DD /* Assets.xcassets */; };
 		6DECD2E127709010007A13DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DECD2DF27709010007A13DD /* LaunchScreen.storyboard */; };
+		6DECD2E9277091E2007A13DD /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2E8277091E2007A13DD /* Login.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D431BF927709E330067D951 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		6DECD2CE2770900A007A13DD /* ClockWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DECD2D12770900A007A13DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DECD2D32770900A007A13DD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +29,7 @@
 		6DECD2DD27709010007A13DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DECD2E027709010007A13DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DECD2E227709010007A13DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6DECD2E8277091E2007A13DD /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				6DECD2DF27709010007A13DD /* LaunchScreen.storyboard */,
 				6DECD2E227709010007A13DD /* Info.plist */,
 				6DECD2DA2770900A007A13DD /* ClockWork.xcdatamodeld */,
+				6DECD2E8277091E2007A13DD /* Login.swift */,
+				6D431BF927709E330067D951 /* Color.swift */,
 			);
 			path = ClockWork;
 			sourceTree = "<group>";
@@ -145,6 +151,8 @@
 				6DECD2DC2770900A007A13DD /* ClockWork.xcdatamodeld in Sources */,
 				6DECD2D22770900A007A13DD /* AppDelegate.swift in Sources */,
 				6DECD2D42770900A007A13DD /* SceneDelegate.swift in Sources */,
+				6DECD2E9277091E2007A13DD /* Login.swift in Sources */,
+				6D431BFA27709E330067D951 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
