@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct LoginView: View {
     
     @State var email = ""
     @State var password = ""
+    
+    @Binding var isLogedIn: Bool
     
     let borderColor = Color.text.opacity(0.35)
 
@@ -43,7 +45,7 @@ struct SwiftUIView: View {
                 .padding([.bottom], 8)
                 .padding([.top],32)
                 .padding([.leading, .trailing], 16)
-            TextField("Passwort", text: $password)
+            SecureField("Passwort", text: $password)
                 .disableAutocorrection(true)
                 .frame(maxWidth: .infinity)
                 .frame(height: 24)
@@ -55,7 +57,7 @@ struct SwiftUIView: View {
                 ).padding([.leading, .trailing], 16)
            
             Button(action: {
-                
+                isLogedIn = true
             }, label: {
                 Text("Login")
                     
@@ -87,15 +89,6 @@ struct SwiftUIView: View {
                 Spacer()
             }
             Spacer()
-            
         }
-        
-        
-    }
-}
-
-struct SwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        SwiftUIView()
     }
 }
