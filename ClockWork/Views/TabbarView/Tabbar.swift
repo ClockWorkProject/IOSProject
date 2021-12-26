@@ -32,10 +32,6 @@ struct TabView: View {
                     }
                     Spacer()
                     ZStack {
-                        if showPopUp {
-                            PlusMenu(widthAndHeight: geometry.size.width/7)
-                                .offset(y: -geometry.size.height/6)
-                        }
                         HStack {
                             TabBarIcon(viewRouter: viewRouter, assignedPage: .home, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "clock.arrow.circlepath", tabName: "Toggle")
                             TabBarIcon(viewRouter: viewRouter, assignedPage: .liked, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "list.dash", tabName: "Issues")
@@ -85,39 +81,6 @@ struct TabbarView_Previews: PreviewProvider {
     static var previews: some View {
         TabView(viewRouter: ViewRouter())
             .preferredColorScheme(.light)
-    }
-}
-
-struct PlusMenu: View {
-    
-    let widthAndHeight: CGFloat
-    
-    var body: some View {
-        HStack(spacing: 50) {
-            ZStack {
-                Circle()
-                    .foregroundColor(Color.main)
-                    .frame(width: widthAndHeight, height: widthAndHeight)
-                Image(systemName: "record.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(15)
-                    .frame(width: widthAndHeight, height: widthAndHeight)
-                    .foregroundColor(.white)
-            }
-            ZStack {
-                Circle()
-                    .foregroundColor(Color.main)
-                    .frame(width: widthAndHeight, height: widthAndHeight)
-                Image(systemName: "folder")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(15)
-                    .frame(width: widthAndHeight, height: widthAndHeight)
-                    .foregroundColor(.white)
-            }
-        }
-        .transition(.scale)
     }
 }
 
