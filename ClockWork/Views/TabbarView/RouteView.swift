@@ -8,12 +8,12 @@ import SwiftUI
 
 class ViewRouter: ObservableObject {
     
-    @Published var currentPage: Page = .home
+    @Published var currentPage: TabPage = .home
     
 }
 
 
-enum Page {
+enum TabPage {
     case home
     case liked
     case records

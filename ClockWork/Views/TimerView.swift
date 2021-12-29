@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TimerView: View {
     
-    @State var hours: Int = 0
-    @State var minutes: Int = 0
-    @State var seconds: Int = 0
+    @State var hours: Int = 00
+    @State var minutes: Int = 00
+    @State var seconds: Int = 00
     @State var timerIsPaused: Bool = true
     @State var timer: Timer? = nil
     
@@ -25,12 +25,12 @@ struct TimerView: View {
                     .font(Font.system(size: 20, weight: .bold))
                     .foregroundColor(Color.white)
                 Spacer()
-                Text("\(hours):\(minutes):\(seconds)")
+                Text(timerString)
                     .font(Font.system(size: 20, weight: .bold))
                     .foregroundColor(Color.white)
                 Spacer()
                 Button(action: {
-                    if !timerIsPaused
+                    if timerIsPaused
                     {
                         startTimer()
                     }
@@ -72,6 +72,10 @@ struct TimerView: View {
         timerIsPaused = true
         timer?.invalidate()
         timer = nil
+    }
+    
+    var timerString : String {
+     return String(format: "%02i:%02i:%02i" , hours, minutes, seconds)
     }
 }
 

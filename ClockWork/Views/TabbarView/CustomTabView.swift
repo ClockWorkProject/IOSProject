@@ -8,7 +8,7 @@
 import SwiftUI
 import Introspect
 
-struct TabView: View {
+struct CustomTabView: View {
     
     @StateObject var viewRouter: ViewRouter
     
@@ -19,6 +19,7 @@ struct TabView: View {
         NavigationView{
             GeometryReader { geometry in
                 VStack {
+                    TimerView()
                     Spacer()
                     switch viewRouter.currentPage {
                     case .home:
@@ -76,18 +77,10 @@ struct TabView: View {
     }
 }
 
-
-struct TabbarView_Previews: PreviewProvider {
-    static var previews: some View {
-        TabView(viewRouter: ViewRouter())
-            .preferredColorScheme(.light)
-    }
-}
-
 struct TabBarIcon: View {
     
     @StateObject var viewRouter: ViewRouter
-    let assignedPage: Page
+    let assignedPage: TabPage
     
     let width, height: CGFloat
     let systemIconName, tabName: String

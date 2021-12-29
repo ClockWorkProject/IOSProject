@@ -15,7 +15,7 @@ struct ChangeView: View {
         if !isLogedIn {
             LoginView(isLogedIn: $isLogedIn)
         } else {
-            TabView(viewRouter: viewRouter)
+            CustomTabView(viewRouter: viewRouter)
         }
     }
 }
