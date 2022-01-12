@@ -9,9 +9,7 @@ import SwiftUI
 
 struct TimerView: View {
     
-    @State var hours: Int = 00
-    @State var minutes: Int = 00
-    @State var seconds: Int = 00
+    @ObservedObject var stopwatch = Stopwatch()
     @State var timerIsPaused: Bool = true
     @State var timer: Timer? = nil
     
@@ -21,64 +19,49 @@ struct TimerView: View {
                 .fill(Color.second)
                 .ignoresSafeArea()
             HStack{
-                Text("Projekt")
-                    .font(Font.system(size: 20, weight: .bold))
+                VStack {
+                Text("Issue")
+                        .font(Font.system(size: 20, weight: .regular))
                     .foregroundColor(Color.white)
+                Text("Projekt")
+                        .font(Font.system(size: 16, weight: .regular))
+                        .foregroundColor(Color.white)
+                }.padding(8)
                 Spacer()
-                Text(timerString)
+                Text(stopwatch.message)
                     .font(Font.system(size: 20, weight: .bold))
                     .foregroundColor(Color.white)
                 Spacer()
                 Button(action: {
-                    if timerIsPaused
+                    if !stopwatch.isRunning
                     {
-                        startTimer()
+                        stopwatch.start()
+                    }
+                    else {
+                        
                     }
                 }, label: {
-                    if timerIsPaused {
+                    if !stopwatch.isRunning {
                         Image(systemName: "play")
                     } else {
                         Image(systemName: "pause")
                     }
                 })
+                    .padding()
+                    .foregroundColor(.white)
                 Button(action: {
-                    
+                    stopwatch.stop()
                 }, label: {
                     Image(systemName: "multiply")
                 })
-                Spacer()
+                    .padding()
+                    .foregroundColor(.white)
             }
         } .frame(width: .infinity, height: 64, alignment: .top)
+            .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
         
     }
-    func startTimer(){
-        timerIsPaused = false
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){ tempTimer in
-            if self.seconds == 59 {
-                self.seconds = 0
-                if self.minutes == 59 {
-                    self.minutes = 0
-                    self.hours = self.hours + 1
-                } else {
-                    self.minutes = self.minutes + 1
-                }
-            } else {
-                self.seconds = self.seconds + 1
-            }
-        }
-    }
-    
-    func stopTimer(){
-        timerIsPaused = true
-        timer?.invalidate()
-        timer = nil
-    }
-    
-    var timerString : String {
-     return String(format: "%02i:%02i:%02i" , hours, minutes, seconds)
-    }
 }
-
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
