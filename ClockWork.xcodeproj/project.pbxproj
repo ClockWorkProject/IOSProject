@@ -17,9 +17,14 @@
 		6D431C182771D1340067D951 /* ChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C172771D1340067D951 /* ChangeView.swift */; };
 		6D431C1A2771D8FA0067D951 /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C192771D8FA0067D951 /* CustomTabView.swift */; };
 		6D431C1C2771D97C0067D951 /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C1B2771D97C0067D951 /* RouteView.swift */; };
+		6D7FB02B278EEB8700CC3AEC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB02A278EEB8700CC3AEC /* FirebaseAuth */; };
+		6D7FB02D278EEB8700CC3AEC /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB02C278EEB8700CC3AEC /* FirebaseAuthCombine-Community */; };
+		6D7FB02F278EEB8700CC3AEC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB02E278EEB8700CC3AEC /* FirebaseDatabase */; };
+		6D7FB031278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB030278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta */; };
+		6D7FB034278EEBDD00CC3AEC /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB033278EEBDD00CC3AEC /* Introspect */; };
 		6D84EF2A277B11EF00BF633B /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D84EF29277B11EF00BF633B /* DetailScreen.swift */; };
 		6D84EF2D277C8D0F00BF633B /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D84EF2C277C8D0F00BF633B /* Timer.swift */; };
-		6DAB9D992774ED7000FEC0F2 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 6DAB9D982774ED7000FEC0F2 /* Introspect */; };
+		6D9C073D278EE8BA00A6ECD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D9C073C278EE8BA00A6ECD1 /* GoogleService-Info.plist */; };
 		6DAB9D9B2774F5BA00FEC0F2 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAB9D9A2774F5BA00FEC0F2 /* CardView.swift */; };
 		6DAB9D9D2775093700FEC0F2 /* ToggleStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAB9D9C2775093700FEC0F2 /* ToggleStartView.swift */; };
 		6DAB9D9F2778FA5300FEC0F2 /* IssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAB9D9E2778FA5300FEC0F2 /* IssueView.swift */; };
@@ -46,6 +51,7 @@
 		6D431C1B2771D97C0067D951 /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
 		6D84EF29277B11EF00BF633B /* DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
 		6D84EF2C277C8D0F00BF633B /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		6D9C073C278EE8BA00A6ECD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6DAB9D9A2774F5BA00FEC0F2 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		6DAB9D9C2775093700FEC0F2 /* ToggleStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleStartView.swift; sourceTree = "<group>"; };
 		6DAB9D9E2778FA5300FEC0F2 /* IssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueView.swift; sourceTree = "<group>"; };
@@ -66,7 +72,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DAB9D992774ED7000FEC0F2 /* Introspect in Frameworks */,
+				6D7FB02F278EEB8700CC3AEC /* FirebaseDatabase in Frameworks */,
+				6D7FB02B278EEB8700CC3AEC /* FirebaseAuth in Frameworks */,
+				6D7FB034278EEBDD00CC3AEC /* Introspect in Frameworks */,
+				6D7FB031278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta in Frameworks */,
+				6D7FB02D278EEB8700CC3AEC /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,11 +86,10 @@
 		6D431BFB2770B95D0067D951 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6D7FB035278EF08C00CC3AEC /* Login */,
 				6D84EF2B277C8CD300BF633B /* Timer */,
 				6DAB9DA22779C05500FEC0F2 /* IssueBoard */,
 				6D431C002770EAD40067D951 /* TabbarView */,
-				6DECD2E8277091E2007A13DD /* LoginView.swift */,
-				6D431BFC2770B9AD0067D951 /* SignUpView.swift */,
 				6D431C0B2770EF5D0067D951 /* ToggleView.swift */,
 				6D431C0D2770FE6E0067D951 /* ProfilView.swift */,
 				6D431C102770FEDC0067D951 /* StatisticView.swift */,
@@ -108,6 +117,15 @@
 				6DAB9DA02779B11200FEC0F2 /* View.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		6D7FB035278EF08C00CC3AEC /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6DECD2E8277091E2007A13DD /* LoginView.swift */,
+				6D431BFC2770B9AD0067D951 /* SignUpView.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		6D84EF2B277C8CD300BF633B /* Timer */ = {
@@ -156,6 +174,7 @@
 				6DECD2DD27709010007A13DD /* Assets.xcassets */,
 				6DECD2DF27709010007A13DD /* LaunchScreen.storyboard */,
 				6DECD2E227709010007A13DD /* Info.plist */,
+				6D9C073C278EE8BA00A6ECD1 /* GoogleService-Info.plist */,
 			);
 			path = ClockWork;
 			sourceTree = "<group>";
@@ -177,7 +196,11 @@
 			);
 			name = ClockWork;
 			packageProductDependencies = (
-				6DAB9D982774ED7000FEC0F2 /* Introspect */,
+				6D7FB02A278EEB8700CC3AEC /* FirebaseAuth */,
+				6D7FB02C278EEB8700CC3AEC /* FirebaseAuthCombine-Community */,
+				6D7FB02E278EEB8700CC3AEC /* FirebaseDatabase */,
+				6D7FB030278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta */,
+				6D7FB033278EEBDD00CC3AEC /* Introspect */,
 			);
 			productName = ClockWork;
 			productReference = 6DECD2CE2770900A007A13DD /* ClockWork.app */;
@@ -208,7 +231,8 @@
 			);
 			mainGroup = 6DECD2C52770900A007A13DD;
 			packageReferences = (
-				6DAB9D972774ED7000FEC0F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6D7FB032278EEBDC00CC3AEC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 6DECD2CF2770900A007A13DD /* Products */;
 			projectDirPath = "";
@@ -224,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9C073D278EE8BA00A6ECD1 /* GoogleService-Info.plist in Resources */,
 				6DECD2E127709010007A13DD /* LaunchScreen.storyboard in Resources */,
 				6DECD2DE27709010007A13DD /* Assets.xcassets in Resources */,
 				6DECD2D92770900A007A13DD /* Main.storyboard in Resources */,
@@ -333,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -388,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -413,13 +438,14 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.clockworkproject..ClockWork;
+				PRODUCT_BUNDLE_IDENTIFIER = de.clockworkproject.ClockWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -442,13 +468,14 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.clockworkproject..ClockWork;
+				PRODUCT_BUNDLE_IDENTIFIER = de.clockworkproject.ClockWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -480,7 +507,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6DAB9D972774ED7000FEC0F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+		6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		6D7FB032278EEBDC00CC3AEC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
 			requirement = {
@@ -491,9 +526,29 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6DAB9D982774ED7000FEC0F2 /* Introspect */ = {
+		6D7FB02A278EEB8700CC3AEC /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6DAB9D972774ED7000FEC0F2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			package = 6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6D7FB02C278EEB8700CC3AEC /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		6D7FB02E278EEB8700CC3AEC /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		6D7FB030278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseDatabaseSwift-Beta";
+		};
+		6D7FB033278EEBDD00CC3AEC /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D7FB032278EEBDC00CC3AEC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
