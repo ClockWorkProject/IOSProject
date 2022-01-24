@@ -3,7 +3,7 @@
 //  ClockWork
 //
 //  Created by Mattis on 27.12.21.
-//https://stackoverflow.com/questions/56760335/round-specific-corners-swiftui
+
 
 import Foundation
 import Introspect
@@ -21,10 +21,22 @@ extension View {
             customize: customize
         ))
     }
-    
+    //https://stackoverflow.com/questions/56760335/round-specific-corners-swiftui
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
     }
+    
+    func textFieldAlert(isShowing: Binding<Bool>,
+                            placeholder: String,
+                        title: String, onAdd: @escaping (String) -> Void) -> some View {
+        TextFieldAlert(onAdd: onAdd, isShowing: isShowing, placeholder: placeholder, presenting: { self }, title: title)
+    }
+    
+    //https://www.hackingwithswift.com/quick-start/swiftui/how-to-dismiss-the-keyboard-for-a-textfield
+    func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+
 }
 struct RoundedCorner: Shape {
 
@@ -34,6 +46,13 @@ struct RoundedCorner: Shape {
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         return Path(path.cgPath)
+    }
+}
+
+extension String: Identifiable {
+    public typealias ID = Int
+    public var id: Int {
+        return hash
     }
 }
 

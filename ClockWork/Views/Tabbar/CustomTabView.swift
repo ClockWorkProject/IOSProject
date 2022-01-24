@@ -11,19 +11,32 @@ import Introspect
 struct CustomTabView: View {
     
     @StateObject var viewRouter: ViewRouter
+    @ObservedObject var groupObserver = GroupObserver.shared
+    @ObservedObject var stopwatchObserver = Stopwatch.shared
     
     @State var showPopUp = false
     @State var showingSheet = false
     
     var body: some View {
         NavigationView{
+            if groupObserver.loading {
+                ProgressView()
+            }
+            else {
             GeometryReader { geometry in
                 VStack {
-                    TimerView()
-                    Spacer()
+                    if  stopwatchObserver.isRunning ?? false {
+                        TimerView()
+                        Spacer()
+                    }
                     switch viewRouter.currentPage {
                     case .home:
-                        ToggleView()
+                        if groupObserver.hasGroup {
+                            ToggleView()
+                        }
+                        else {
+                            CreateGroupView()
+                        }
                     case .liked:
                         IssueView()
                     case .records:
@@ -34,8 +47,8 @@ struct CustomTabView: View {
                     Spacer()
                     ZStack {
                         HStack {
-                            TabBarIcon(viewRouter: viewRouter, assignedPage: .home, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "clock.arrow.circlepath", tabName: "Toggle")
-                            TabBarIcon(viewRouter: viewRouter, assignedPage: .liked, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "list.dash", tabName: "Issues")
+                            TabBarIcon(viewRouter: viewRouter, assignedPage: .home, isDisabled: false, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "clock.arrow.circlepath", tabName: "Toggle")
+                            TabBarIcon(viewRouter: viewRouter, assignedPage: .liked, isDisabled: !groupObserver.hasGroup, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "list.dash", tabName: "Issues")
                             ZStack {
                                 Circle()
                                     .foregroundColor(Color.white)
@@ -57,8 +70,8 @@ struct CustomTabView: View {
                                 ToggleStartView()
                             }
 
-                            TabBarIcon(viewRouter: viewRouter, assignedPage: .records, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "chart.bar.xaxis", tabName: "Statistik")
-                            TabBarIcon(viewRouter: viewRouter, assignedPage: .user, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profil")
+                            TabBarIcon(viewRouter: viewRouter, assignedPage: .records, isDisabled: !groupObserver.hasGroup, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "chart.bar.xaxis", tabName: "Statistik")
+                            TabBarIcon(viewRouter: viewRouter, assignedPage: .user, isDisabled: false, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profil")
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height/8)
                         .background(Color.main.shadow(radius: 2))
@@ -71,9 +84,16 @@ struct CustomTabView: View {
                         UINavigatioController.navigationBar.tintColor = UIColor.white
                         UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
                     }
+            }
         }
+        .onAppear(perform: listen)
         
         
+    }
+    
+    
+    func listen() {
+        groupObserver.groupListener()
     }
 }
 
@@ -81,7 +101,7 @@ struct TabBarIcon: View {
     
     @StateObject var viewRouter: ViewRouter
     let assignedPage: TabPage
-    
+    let isDisabled: Bool
     let width, height: CGFloat
     let systemIconName, tabName: String
     
@@ -98,7 +118,9 @@ struct TabBarIcon: View {
         }
         .padding(.horizontal, -4)
         .onTapGesture {
-            viewRouter.currentPage = assignedPage
+            if !isDisabled {
+                viewRouter.currentPage = assignedPage
+            }
         }
         .foregroundColor(viewRouter.currentPage == assignedPage ? Color.black : .white)
     }

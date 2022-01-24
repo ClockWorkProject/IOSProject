@@ -11,8 +11,8 @@ struct LoginView: View {
     
     @State var email = ""
     @State var password = ""
+    @State var errorString: String?
     
-    @Binding var isLogedIn: Bool
     
     let borderColor = Color.text.opacity(0.35)
 
@@ -57,8 +57,18 @@ struct LoginView: View {
                 ).padding([.leading, .trailing], 16)
            
             Button(action: {
-                isLogedIn = true
-            }, label: {
+                if self.email != "" && self.password != ""{
+                    LoginController.logIn(email: email, password: password, onSuccess: {
+                        print("Sign In!")
+                    }, onError: { (error) in
+                        errorString = error
+                    })
+                }
+                else {
+                    errorString = "Bitte geben sie ein Passwort und eine Email-Adresse ein"
+                }
+            },
+                   label: {
                 Text("Login")
                     
                     .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
@@ -75,8 +85,18 @@ struct LoginView: View {
             VStack(spacing: 0){
                 Text("Noch keinen Account?")
                     .font(Font.system(size: 13, weight: .regular))
+                
                 Button(action: {
-                    
+                    if self.email != "" && self.password != ""{
+                        LoginController.signUpUser(email: email, password: password, onSuccess: {
+                            print("Sign In!")
+                        }, onError: { (error) in
+                            errorString = error
+                            
+                        })
+                    } else {
+                        errorString = "Bitte geben sie ein Passwort und eine Email adresse ein"
+                    }
                 }, label: {
                         Text("Registrieren")
                     .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
@@ -90,5 +110,12 @@ struct LoginView: View {
             }
             Spacer()
         }
+        .alert(item: $errorString, content: {errorMessage in Alert(
+            title: Text("Fehler"),
+            message: Text(errorMessage),
+            dismissButton: .default(Text("Okay"), action: {
+                
+            })
+        )})
     }
 }

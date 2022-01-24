@@ -8,20 +8,38 @@
 import SwiftUI
 
 struct ChangeView: View {
-    @State var isLogedIn = false
+    
+    @ObservedObject var authentificationState =  AuthentificationObserver.shared
+    
     @StateObject var viewRouter = ViewRouter()
     
     var body: some View {
-        if !isLogedIn {
-            LoginView(isLogedIn: $isLogedIn)
-        } else {
-            CustomTabView(viewRouter: viewRouter)
-        }
+        Group {
+            if authentificationState.isLoaded {
+                if !authentificationState.isSignedIn {
+                    LoginView()
+                } else {
+                    CustomTabView(viewRouter: viewRouter)
+                }
+            } else {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                ProgressView()
+                    .progressViewStyle(FullScreenProgressViewStyle())
+                        Spacer()
+                    }
+                    Spacer()
+                }.background(Color.main)
+                    .ignoresSafeArea()
+            }
+        }.onAppear(perform: listen)
     }
+    
+    func listen() {
+        authentificationState.stateListener()
+    }
+
 }
 
-struct ChangeView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangeView()
-    }
-}

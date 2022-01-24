@@ -8,31 +8,35 @@
 import SwiftUI
 import Introspect
 
-struct MyGroup {
-    var name:String, items:[String]
-}
-
-
 struct ToggleStartView: View {
     
-    var groups : [MyGroup] = [
-            .init(name: "Animals", items: ["🐕","🐩","🐂","🐄","🐈","🦩","🐿","🐇"]),
-            .init(name: "Vehicles", items: ["🚕","🚗","🚃","🚂","🚟","🚤","🛥","⛵️"])]
+    @ObservedObject var projectObserver = ProjectObserver.shared
+    @ObservedObject var stopwatchObserver = Stopwatch.shared
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
                     VStack {
                         List {
-                            ForEach(groups, id: \.self.name) { group in
-                                Section(header: Text(group.name)) {
-                                    ForEach(group.items, id:\.self) { item in
-                                        Text(item)
+                            ForEach(projectObserver.projects, id: \.self.id) { project in
+                                Section(header: Text(project.name)) {
+                                    ForEach(project.issues?.map{$1} ?? [], id: \.self) { item in
+                                        Button {
+                                            presentationMode.wrappedValue.dismiss()
+                                            stopwatchObserver.issue = item
+                                            stopwatchObserver.project = project
+                                            stopwatchObserver.start()
+                                            print(item)
+                                        } label: {
+                                            Text(item.name)
+                                        }
                                     }
                                 }
                             }
                             
                         } .listStyle(SidebarListStyle())
                     }
+                    .onAppear(perform: { projectObserver.projectListener()})
                     .navigationBarTitle("Toogle starten", displayMode: .inline)
                     .introspectNavigationController{ (UINavigatioController) in
                                 UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
@@ -47,11 +51,5 @@ struct ToggleStartView: View {
 struct ToggleStartView_Previews: PreviewProvider {
     static var previews: some View {
         ToggleStartView()
-    }
-}
-
-struct TaskRow: View {
-    var body: some View {
-        Text("Task data goes here")
     }
 }

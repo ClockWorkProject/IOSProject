@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimerView: View {
     
-    @ObservedObject var stopwatch = Stopwatch()
+    @ObservedObject var stopwatch = Stopwatch.shared
     @State var timerIsPaused: Bool = true
     @State var timer: Timer? = nil
     
@@ -17,13 +17,12 @@ struct TimerView: View {
         ZStack{
             Rectangle()
                 .fill(Color.second)
-                .ignoresSafeArea()
             HStack{
                 VStack {
-                Text("Issue")
+                    Text(stopwatch.issue?.name ?? "error")
                         .font(Font.system(size: 20, weight: .regular))
                     .foregroundColor(Color.white)
-                Text("Projekt")
+                    Text(stopwatch.project?.name ?? "error")
                         .font(Font.system(size: 16, weight: .regular))
                         .foregroundColor(Color.white)
                 }.padding(8)
@@ -33,7 +32,7 @@ struct TimerView: View {
                     .foregroundColor(Color.white)
                 Spacer()
                 Button(action: {
-                    if !stopwatch.isRunning
+                    if !(stopwatch.isRunning ?? false)
                     {
                         stopwatch.start()
                     }
@@ -41,7 +40,7 @@ struct TimerView: View {
                         
                     }
                 }, label: {
-                    if !stopwatch.isRunning {
+                    if !(stopwatch.isRunning ?? false) {
                         Image(systemName: "play")
                     } else {
                         Image(systemName: "pause")
