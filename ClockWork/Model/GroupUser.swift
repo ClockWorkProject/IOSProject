@@ -36,6 +36,7 @@ struct GroupUser: Hashable, Identifiable {
                 toggledDates.append(date)
             }
         }
+        toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
     }
     
 }

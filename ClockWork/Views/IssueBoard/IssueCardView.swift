@@ -19,7 +19,7 @@ struct IssueCardView: View {
                     .font(.system(size: 24))
                     .foregroundColor(page.color)
                 Spacer()
-                Text("3")
+                Text(String(fireObserver.issues.filter({$0.issueState == page}).count))
                     .font(.system(size: 24))
                 Image(systemName: "square.on.square")
                 NavigationLink(destination: AddIssueView(issuePage: page, issueNumber: fireObserver.issues.count + 1)){
