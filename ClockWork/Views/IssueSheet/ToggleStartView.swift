@@ -20,13 +20,13 @@ struct ToggleStartView: View {
                         List {
                             ForEach(projectObserver.projects, id: \.self.id) { project in
                                 Section(header: Text(project.name)) {
-                                    ForEach(project.issues?.map{$1} ?? [], id: \.self) { item in
+                                    ForEach(project.issues, id: \.self) { item in
                                         Button {
-                                            presentationMode.wrappedValue.dismiss()
+                                            // startet die Stoppuhr und schließt sheet
                                             stopwatchObserver.issue = item
                                             stopwatchObserver.project = project
                                             stopwatchObserver.start()
-                                            print(item)
+                                            presentationMode.wrappedValue.dismiss()
                                         } label: {
                                             Text(item.name)
                                         }
@@ -36,7 +36,6 @@ struct ToggleStartView: View {
                             
                         } .listStyle(SidebarListStyle())
                     }
-                    .onAppear(perform: { projectObserver.projectListener()})
                     .navigationBarTitle("Toogle starten", displayMode: .inline)
                     .introspectNavigationController{ (UINavigatioController) in
                                 UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")

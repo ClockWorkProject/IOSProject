@@ -3,17 +3,16 @@
 //  ClockWork
 //
 //  Created by Mattis on 18.01.22.
-//
+//  https://stackoverflow.com/a/57585807
 
 import SwiftUI
 
 struct PickView: View {
-    @Binding var picked : String
+
     @Environment(\.presentationMode) var presentationMode
     @State private var isShowing = false
-    @State var text = ""
     @ObservedObject var projectObserver = ProjectObserver.shared
-    @State var listenhandler : (UInt, UInt) = (0,0)
+
     
     
     var body: some View {
@@ -28,15 +27,13 @@ struct PickView: View {
                         Button(action: {
                             projectObserver.savedProject =  project
                             UserDefaults.standard.set(project.id,forKey: "savedProjectId")
-                            projectObserver.issues = []
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
                             Text("\(project.name)")
                                 .foregroundColor(Color.black)
                         }
                     }
-                }.onAppear(perform: listen)
-                   .onDisappear(perform: unlisten)
+                }
                 .navigationBarTitle("Projekte")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) { Button(action:
@@ -52,14 +49,6 @@ struct PickView: View {
            }
         }
     }
-    // MARK: - Function
-    func listen() {
-        projectObserver.projectListener()
-    }
-    func unlisten() {
-        
-    }
-    
 }
 
 

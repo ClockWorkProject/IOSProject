@@ -25,7 +25,7 @@ struct ToggledDate: Hashable {
         }
         self.dateString = snapshot.key
         self.totalTime = totalTime
-        print(totalTime)
+
         issues.forEach {key, value in
             guard
                 let issueName = value["issueName"] as? String,

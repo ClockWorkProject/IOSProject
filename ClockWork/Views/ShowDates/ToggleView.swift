@@ -17,13 +17,8 @@ struct ToggleView: View {
                 CardView(toggledDate: toggledDate)
             }
         }
-        .onAppear(perform: listenDates)
         .navigationBarTitle("Toggle", displayMode: .inline)
 
-    }
-    
-    func listenDates() {
-        dateObserver.observeDates()
     }
 }
 

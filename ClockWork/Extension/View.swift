@@ -21,7 +21,7 @@ extension View {
             customize: customize
         ))
     }
-    //https://stackoverflow.com/questions/56760335/round-specific-corners-swiftui
+    //https://stackoverflow.com/a/60512484
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
     }

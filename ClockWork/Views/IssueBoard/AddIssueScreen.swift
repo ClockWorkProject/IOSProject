@@ -12,6 +12,7 @@ struct AddIssueView: View {
     var issuePage: IssuePages
     var issueNumber : Int
     @Environment(\.presentationMode) var presentationMode
+    // Damit man nicht zu viele Zeichen eingeben kann
     @ObservedObject var textBindingManager = TextBindingManager(limit: 100)
     @State var issueName = ""
     @State var issuDescription = ""
@@ -20,7 +21,7 @@ struct AddIssueView: View {
     var body: some View {
         VStack(alignment: .leading){
             HStack {
-                Text("#\(issueNumber)")
+                Text("#\(issueNumber+1)")
                     .font(.footnote)
                     .padding([.leading], 8)
                 Text("Issue")
@@ -44,6 +45,7 @@ struct AddIssueView: View {
             Text("Beschreibung:")
                 .font(.footnote)
                 .padding([.leading, .trailing], 8)
+            // Texteditor
             TextEditor(text: $textBindingManager.text)
                 .foregroundColor(Color.black)
                 .overlay(
@@ -55,7 +57,7 @@ struct AddIssueView: View {
             Button(action: {
                 if !issueName.isEmpty {
                     let groupId = GroupObserver.shared.groupID
-                    let issue = Issue(name: issueName, number: String(issueNumber), description: textBindingManager.text , issueState: issuePage)
+                    let issue = Issue(name: issueName, number: String(issueNumber+1), description: textBindingManager.text , issueState: issuePage)
                     FirebaseRepo.addIssue(groupID: groupId, issue: issue, onSuccess: {
                         self.presentationMode.wrappedValue.dismiss()
                     }, onError: { errorMessage in
@@ -78,6 +80,7 @@ struct AddIssueView: View {
                 
             })
         }
+        // gleiches Overlay wie bei den Issuepage
             .padding(10)
             .background(Color( "LightGrey"))
             .overlay(

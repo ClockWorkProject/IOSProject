@@ -36,7 +36,7 @@ class FirebaseRepo {
         
     }
     
-    static func addGroup(name: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
+    static func addGroup(name: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
         
         guard let groupID = ref.child(groupPath).childByAutoId().key else {
             onError("Gruppe konnte nicht erstellt werden")
@@ -128,7 +128,8 @@ class FirebaseRepo {
             onError("Gruppe konnte nicht erstellt werden")
             return
         }
-        let project = Project(id: projectID, name: name)
+        let project = Project(id: groupID, name: name, issues: [])
+        
         do {
             try projectsRef.child(projectID).setValue(from: project)
             onSuccess()
@@ -165,8 +166,8 @@ class FirebaseRepo {
             return
         }
         let groupID = GroupObserver.shared.groupID
-        let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues/\(issue.id)")
-        
+        let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues/\(issue.id)/")
+        print(issueRef)
         issueRef.updateChildValues(["issueState" : page.rawValue])
     }
     

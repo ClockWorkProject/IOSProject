@@ -18,9 +18,6 @@ final class AuthentificationObserver: ObservableObject {
     @Published var isSignedIn = false
     @Published var isLoaded = false
     var username = ""
-   
-    
-    
     var handle  : AuthStateDidChangeListenerHandle?
     
     func stateListener() {

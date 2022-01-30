@@ -3,7 +3,9 @@
 //  ClockWork
 //
 //  Created by Mattis on 18.01.22.
-//
+// TODO: schöneres Design
+
+
 import SwiftUI
 
 struct EmptyProjectView: View {
@@ -38,7 +40,7 @@ struct EmptyProjectView: View {
     func addProject(name: String) {
         let groupID = GroupObserver.shared.groupID
         FirebaseRepo.addProjectToGroup(groupID: groupID, name: name, onSuccess: {
-            ProjectObserver.shared.projectListener()
+            
         }, onError: {errorMessage in
             
         })

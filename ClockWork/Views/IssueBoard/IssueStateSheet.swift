@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChangeIssueView: View {
+struct IssueStateSheet: View {
     
     @Environment(\.presentationMode) var presentationMode
     var issue: Issue

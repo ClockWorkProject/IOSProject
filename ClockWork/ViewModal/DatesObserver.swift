@@ -13,18 +13,16 @@ import FirebaseDatabaseSwift
 final class DateObserver: ObservableObject {
     
     static let shared = DateObserver()
-    private let groupID = GroupObserver.shared.groupID
     let groupDB = Database.database().reference().child("groups")
     
     @Published var toggledDates: [ToggledDate] = []
     
-    func observeDates() -> (UInt, UInt){
+    func observeDates(groupID: String) -> (UInt, UInt){
         guard let currentUser = Auth.auth().currentUser else {
             print("UserError")
             return (0, 0)
         }
         if !groupID.isEmpty {
-            print("Observe issues")
             let handle = groupDB.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childAdded, with: { snapshot in
                     if let toggledDate = ToggledDate(snapshot: snapshot) {
                         //replace old data
@@ -40,7 +38,7 @@ final class DateObserver: ObservableObject {
                         else {
                             print("contains")
                         }
-                        print(self.toggledDates)
+
                     } 
             })
             let updateHandler = groupDB.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childChanged, with: { snapshot in
@@ -54,7 +52,7 @@ final class DateObserver: ObservableObject {
             return (handle, updateHandler)
         }
         else {
-            print("no groupID")
+            print(#file, "no groupID")
             return(0,0)
         }
     }

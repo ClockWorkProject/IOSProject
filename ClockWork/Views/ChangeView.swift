@@ -11,7 +11,7 @@ struct ChangeView: View {
     
     @ObservedObject var authentificationState =  AuthentificationObserver.shared
     
-    @StateObject var viewRouter = ViewRouter()
+
     
     var body: some View {
         Group {
@@ -19,20 +19,10 @@ struct ChangeView: View {
                 if !authentificationState.isSignedIn {
                     LoginView()
                 } else {
-                    CustomTabView(viewRouter: viewRouter)
+                    RootView()
                 }
             } else {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                ProgressView()
-                    .progressViewStyle(FullScreenProgressViewStyle())
-                        Spacer()
-                    }
-                    Spacer()
-                }.background(Color.main)
-                    .ignoresSafeArea()
+                MiddleProgressView(color: Color.main)
             }
         }.onAppear(perform: listen)
     }

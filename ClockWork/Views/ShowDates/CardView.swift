@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     
+    // Collapse State
     @State var isCollapsed = true
     var toggledDate: ToggledDate
     
@@ -16,6 +17,7 @@ struct CardView: View {
         VStack {
             HStack {
                 VStack(alignment: .leading) {
+                    // unausgeklappte sicht mit Datum un Uhrzeit
                     HStack {
                         Text(toggledDate.dateString.replacingOccurrences(of: "-", with: "."))
                         Spacer()
@@ -39,6 +41,7 @@ struct CardView: View {
                 .onTapGesture {
                     isCollapsed.toggle()
                 }
+            // Wenn ausgeklappt zeige für jedes Issue in dem Datum die StundenZeit an
             if !isCollapsed {
                 ForEach(toggledDate.toggledIssues, id: \.self) {toggledIssue in
                     HStack {

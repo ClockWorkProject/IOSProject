@@ -13,25 +13,27 @@ struct LoginView: View {
     @State var password = ""
     @State var errorString: String?
     
-    
     let borderColor = Color.text.opacity(0.35)
 
     var body: some View {
         
         VStack{
+            // Lila Rechteck mit Bild
             ZStack{
                 Rectangle()
                     .fill(Color("MainColor"))
                     .ignoresSafeArea()
                 VStack{
-                Image(uiImage: UIImage(named: "logo")!)
+                    Image(uiImage: UIImage(named: "logo")!)
                     Text("ClockWork")
                         .font(Font.system(size: 34, weight: .bold))
                         .foregroundColor(Color.white)
                 }
             }
-            .frame(width: .infinity, height: 200, alignment: .top)
+            .frame(height: 200)
+            .frame(maxWidth: .infinity, alignment: .top)
             
+            // EmailFeld
             TextField("Email", text: $email)
                 .disableAutocorrection(true)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -45,6 +47,7 @@ struct LoginView: View {
                 .padding([.bottom], 8)
                 .padding([.top],32)
                 .padding([.leading, .trailing], 16)
+            // PasswortFelt
             SecureField("Passwort", text: $password)
                 .disableAutocorrection(true)
                 .frame(maxWidth: .infinity)
@@ -55,9 +58,10 @@ struct LoginView: View {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(borderColor, lineWidth: 1)
                 ).padding([.leading, .trailing], 16)
-           
+           //Login Button
             Button(action: {
                 if self.email != "" && self.password != ""{
+                    // Wenn passwort und email eingegeben wurde versuche dich einzuloggen
                     LoginController.logIn(email: email, password: password, onSuccess: {
                         print("Sign In!")
                     }, onError: { (error) in
@@ -82,11 +86,13 @@ struct LoginView: View {
                     
                 
             })
+            //RegestrierenButton mit Überschrift
             VStack(spacing: 0){
                 Text("Noch keinen Account?")
                     .font(Font.system(size: 13, weight: .regular))
                 
                 Button(action: {
+                    // Wenn passwort und email eingegeben wurde versuche dich zu regestrieren
                     if self.email != "" && self.password != ""{
                         LoginController.signUpUser(email: email, password: password, onSuccess: {
                             print("Sign In!")
@@ -110,6 +116,7 @@ struct LoginView: View {
             }
             Spacer()
         }
+        // Alert für Error
         .alert(item: $errorString, content: {errorMessage in Alert(
             title: Text("Fehler"),
             message: Text(errorMessage),

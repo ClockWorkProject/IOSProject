@@ -15,7 +15,7 @@ class ViewRouter: ObservableObject {
 
 enum TabPage {
     case home
-    case liked
-    case records
+    case issueBoard
+    case statistic
     case user
 }
