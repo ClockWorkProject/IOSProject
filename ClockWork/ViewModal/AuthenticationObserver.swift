@@ -14,52 +14,106 @@ final class AuthentificationObserver: ObservableObject {
     
     static let shared = AuthentificationObserver()
     let usersDB = Database.database().reference().child("user")
+    let groupDB = Database.database().reference().child("groups")
     
-    @Published var isSignedIn = false
-    @Published var isLoaded = false
-    var username = ""
-    var handle  : AuthStateDidChangeListenerHandle?
+    @Published var email = ""
+    @Published var logdInUser: User?
+    @Published var loginState: LoginState = .loading
     
-    func stateListener() {
-        handle = Auth.auth().addStateDidChangeListener { auth, user in
+    func loginListener() {
+       Auth.auth().addStateDidChangeListener { auth, user in
             if let user = user {
                 self.usersDB.child(user.uid).observeSingleEvent(of: .value, with: { (snapshot) in
                     if !snapshot.exists() {
-                        FirebaseRepo.addUser(onSuccess: {username in
-                            self.username = username
-                            self.isSignedIn = true
-                            print(self.isSignedIn)
-                            }, onError: { (error) in
-                                do {
-                                    print(error)
-                                    try Auth.auth().signOut()
-                                    self.isLoaded = true
-                                } catch {
-                                    self.isLoaded = true
-                                    self.isSignedIn = false
-                                }
-                                
-                            })
+                        self.addUser()
                     } else {
-                        guard
-                            let value = snapshot.value as? [String: AnyObject],
-                            let name = value["username"] as? String
-                            //let dates = snapshot.childSnapshot(forPath: "dates")
-                        else {
-                            print(snapshot)
-                            print(#file,#line,"wrongKeys")
-                            return
-                        }
-                        self.username = name
-                        print(self.username)
-                        self.isSignedIn = true
-                        self.isLoaded = true
+                        self.loadUser(snapshot: snapshot)
                     }
              })
             } else {
-                self.isSignedIn = false
-                self.isLoaded = true
+                self.loginState = .loggedOut
             }
         }
     }
+    
+    func loadUser(snapshot: DataSnapshot) {
+        guard
+            let value = snapshot.value as? [String: AnyObject],
+            let name = value["username"] as? String,
+            let groupID = value["groupID"] as? String
+        else {
+            self.loginState = .error("Fehler beim laden des Users. Sie wurden ausgeloggt")
+            return
+        }
+        self.logdInUser = User(id: snapshot.key, username: name, groupID: groupID)
+        if !groupID.isEmpty{
+            groupDB.child("\(groupID)/user/\(snapshot.key)").getData(completion:  { error, snapshot in
+                if let error = error {
+                    self.loginState = .error(error.localizedDescription)
+                } else {
+                    guard
+                        let value = snapshot.value as? [String: AnyObject],
+                        let role  = value["role"] as? String
+                    else {
+                        self.loginState = .error("Falscher Key bitte support anschreiben")
+                        return
+                    }
+                    self.logdInUser?.admin = role == "admin"
+                    self.loginState = .loggedIn
+                }
+            })
+        }
+        else {
+            loginState = .loggedIn
+        }
+        
+    }
+    
+    func logIn(password: String ) {
+        self.email = email
+        Auth.auth().signIn(withEmail: email, password: password) { (authData, error) in
+                    if let error = error{
+                        guard let errorCode = AuthErrorCode(rawValue: error._code) else {
+                            print(#file,#line, "Error error")
+                            return
+                        }
+                        self.loginState = .error(errorCode.errorMessage)
+                       return
+                    }
+               }
+
+
+    }
+    func signUpUser(password: String) {
+          Auth.auth().createUser(withEmail: email, password: password) { (authData, error) in
+              if let error = error{
+                  guard let errorCode = AuthErrorCode(rawValue: error._code) else {
+                      print(#file,#line, "Error error")
+                      return
+                  }
+                  self.loginState = .error(errorCode.errorMessage)
+              }
+             
+        }
+    }
+    
+    func addUser() {
+        FirebaseRepo.addUser(onError: {errorMessage in
+            self.loginState = .error(errorMessage)
+        }, onSuccess: {user in
+            self.logdInUser = user
+            self.loginState = .loggedIn
+        })
+    }
+    
+    func logout() {
+        do {
+            loginState = .loggedOut
+            try Auth.auth().signOut()
+        } catch {
+            
+        }
+            
+    }
+    
 }

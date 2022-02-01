@@ -9,26 +9,31 @@ import SwiftUI
 
 struct ChangeView: View {
     
-    @ObservedObject var authentificationState =  AuthentificationObserver.shared
-    
-
+    @StateObject var userViewModal =  AuthentificationObserver.shared
     
     var body: some View {
         Group {
-            if authentificationState.isLoaded {
-                if !authentificationState.isSignedIn {
-                    LoginView()
-                } else {
-                    RootView()
-                }
-            } else {
+            switch userViewModal.loginState  {
+            case .loggedOut:
+                LoginView(userViewModel: userViewModal)
+            case .loading:
                 MiddleProgressView(color: Color.main)
+            case .loggedIn:
+                RootView(authObserver: userViewModal)
+            case let .error(errorMessage):
+                LoginView(userViewModel: userViewModal)
+                    .alert(isPresented: .constant(true) , content: {
+                        Alert(title: Text("Fehler"), message: Text(errorMessage), dismissButton:  .default(Text("Okay"), action: {
+                            userViewModal.loginState = .loggedOut
+                        }))
+                    })
             }
+                
         }.onAppear(perform: listen)
     }
     
     func listen() {
-        authentificationState.stateListener()
+        userViewModal.loginListener()
     }
 
 }

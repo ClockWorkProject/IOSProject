@@ -33,7 +33,7 @@ struct IssuePageView: View {
             }
             .padding(10)
             ScrollView {
-                ForEach(projectViewModal.savedProject!.issues.filter({$0.issueState == page}), id: \.self){ issue in
+                ForEach(projectViewModal.savedProject?.issues.filter({$0.issueState == page}) ?? [], id: \.self){ issue in
                     IssueCard(issue: issue)
                 }
             }
@@ -55,6 +55,7 @@ struct IssueCard: View {
     
     var issue: Issue
     @State var showingSheet: Bool = false
+    @State var showingDetailSheet: Bool = false
     
     // Card wie bei ToggleView
     var body: some View {
@@ -77,10 +78,13 @@ struct IssueCard: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
         )
-        .onTapGesture {  }
+        .onTapGesture ( perform: {showingDetailSheet = true} )
         .onLongPressGesture(perform: {showingSheet = true})
         .padding([.top], 2)
         .padding([.horizontal], 8)
+        .sheet(isPresented: $showingDetailSheet){
+            IssueDetailView(issue: issue)
+        }
         .sheet(isPresented: $showingSheet) {
             IssueStateSheet(issue: issue)
         }

@@ -10,9 +10,12 @@ import SwiftUI
 struct TabBarView: View {
     
     var geometry: GeometryProxy
-    @StateObject var viewRouter: ViewRouter
-    @State var hasGroup: Bool
+    @ObservedObject var viewRouter: ViewRouter
+    @State var hasGroup = true
     @State var showingSheet = false
+    
+    @ObservedObject var projectObserver : ProjectObserver
+    @ObservedObject var stopwatchObserver : Stopwatch
     
     var body: some View {
         ZStack {
@@ -44,7 +47,7 @@ struct TabBarView: View {
                     }
                     //Sheet mit issues zum starten
                     .sheet(isPresented: $showingSheet) {
-                        ToggleStartView()
+                        ToggleStartView(projectObserver: projectObserver, stopwatchObserver: stopwatchObserver)
                     }
                 }
                 // TStatistic View nur klickbar wenn in Gruppe

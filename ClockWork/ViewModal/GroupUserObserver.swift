@@ -10,20 +10,23 @@ import Firebase
 
 final class GroupUserObserver: ObservableObject {
     
-    static let shared = GroupUserObserver()
-    private let groupID = GroupObserver.shared.groupID
     let groupDB = Database.database().reference().child("groups")
+    
+    private var ref = Database.database().reference().child("groups")
+    private var newUserHandle: UInt = 0
+    private var updateHandle: UInt = 0
     
     @Published var groupUsers : [GroupUser] = []
     
-    func observeUser() -> (UInt, UInt){
+    func observeUser(groupID: String) {
         guard let currentUser = Auth.auth().currentUser else {
             print("UserError")
-            return (0, 0)
+            return
         }
         if !groupID.isEmpty {
             print("Observe groupUser")
-            let handle = groupDB.child("\(groupID)/user/").observe(.childAdded, with: { snapshot in
+            ref = ref.child("\(groupID)/user/")
+            newUserHandle = ref.observe(.childAdded, with: { snapshot in
                 
                 if let groupUser = GroupUser(snapshot: snapshot) {
                     //replace old data
@@ -42,7 +45,7 @@ final class GroupUserObserver: ObservableObject {
                     print(self.groupUsers)
                 }
             })
-            let updateHandler = groupDB.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childChanged, with: { snapshot in
+            updateHandle = ref.observe(.childChanged, with: { snapshot in
                 if let groupUser = GroupUser(snapshot: snapshot) {
                     if let index = self.groupUsers.firstIndex(where: { $0.id == groupUser.id }) {
                         self.groupUsers[index] = groupUser
@@ -50,11 +53,16 @@ final class GroupUserObserver: ObservableObject {
                 }
             })
             //toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
-            return (handle, updateHandler)
+
         }
         else {
             print("no groupID")
-            return(0,0)
         }
+    }
+    
+    deinit {
+        print("removeDateListener")
+        ref.removeObserver(withHandle: updateHandle)
+        ref.removeObserver(withHandle: newUserHandle)
     }
 }

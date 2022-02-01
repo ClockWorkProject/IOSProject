@@ -11,8 +11,6 @@ import Combine
 
 class Stopwatch: ObservableObject {
     
-    static let shared = Stopwatch()
-    
     @Published var message = "Not running"
     @Published var isRunning: Bool? { didSet { saveIsRunning() } }
     @Published var issue: Issue? { didSet { saveRunningIssue() } }
@@ -29,8 +27,8 @@ class Stopwatch: ObservableObject {
         project = fetchRunningProject()
         startTime = fetchStartTime()
         if startTime != nil {
-                    start()
-                }
+            start()
+        }
     }
 }
 
@@ -67,14 +65,19 @@ extension Stopwatch {
     }
 
     func stop() {
-        FirebaseRepo.addTime(groupID: GroupObserver.shared.groupID, startDate: startTime!, time: Date().timeIntervalSince(startTime!), issue: issue!, project: project!, onSuccess: {print("Sucess")}, onError: { errorMessage in print(errorMessage)})
-        timer?.cancel()
-        timer = nil
-        startTime = nil
-        isRunning = false
-        project = nil
-        issue = nil
-        message = "Not running"
+        if let groupID  = AuthentificationObserver.shared.logdInUser?.groupID {
+            FirebaseRepo.addTime(groupID: groupID, startDate: startTime!, time: Date().timeIntervalSince(startTime!), issue: issue!, project: project!, onSuccess: {print("Sucess")}, onError: { errorMessage in print(errorMessage)})
+            timer?.cancel()
+            timer = nil
+            startTime = nil
+            isRunning = false
+            project = nil
+            issue = nil
+            message = "Not running"
+        }
+        else {
+            print(#file, "no user")
+        }
     }
 }
 

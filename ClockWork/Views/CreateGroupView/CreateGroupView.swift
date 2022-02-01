@@ -12,6 +12,7 @@ struct CreateGroupView: View {
     @State private var isShowingCreateAlert = false
     @State private var isShowingEnterAlert = false
     @State private var alertInput = ""
+    @ObservedObject var groupViewModel = GroupViewModel()
     
     var body: some View {
         VStack {
@@ -56,31 +57,9 @@ struct CreateGroupView: View {
                 
             })
             Spacer()
-        }.textFieldAlert(isShowing: $isShowingCreateAlert, placeholder: "Gruppenname" ,title: "Gruppe erstellen!", onAdd: addGroup)
-            .textFieldAlert(isShowing: $isShowingEnterAlert, placeholder: "Gruppenid" ,title: "Gruppe erstellen!", onAdd: enterGroup)
+        }.textFieldAlert(isShowing: $isShowingCreateAlert, placeholder: "Gruppenname" ,title: "Gruppe erstellen!", onAdd: groupViewModel.addGroup(name:))
+            .textFieldAlert(isShowing: $isShowingEnterAlert, placeholder: "Gruppenid" ,title: "Gruppe erstellen!", onAdd: groupViewModel.enterGroup(groupID:))
             .navigationBarTitle("Gruppe beitreten", displayMode: .inline)
         
-    }
-    func addGroup(name: String) {
-        FirebaseRepo.addGroup(name: name, onSuccess: {
-            GroupObserver.shared.groupListener()
-            
-        }, onError: {errorMessage in
-            print(errorMessage)
-        })
-    }
-    func enterGroup(groupID: String) {
-        FirebaseRepo.enterGroup(groupID: groupID, onSuccess: {
-            GroupObserver.shared.groupListener()
-            
-        }, onError: {errorMessage in
-            print(errorMessage)
-        })
-    }
-}
-
-struct CreateGroupView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreateGroupView()
     }
 }

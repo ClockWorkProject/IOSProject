@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimerView: View {
     
-    @ObservedObject var stopwatch = Stopwatch.shared
+    @ObservedObject var stopwatch : Stopwatch
     @State var timerIsPaused: Bool = true
     @State var timer: Timer? = nil
     
@@ -56,14 +56,9 @@ struct TimerView: View {
                     .padding()
                     .foregroundColor(.white)
             }
-        } .frame(width: .infinity, height: 64, alignment: .top)
+        } .frame(maxWidth: .infinity)
+            .frame(height: 64, alignment: .top)
             .cornerRadius(20, corners: [.bottomLeft, .bottomRight])
         
-    }
-}
-
-struct TimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimerView()
     }
 }

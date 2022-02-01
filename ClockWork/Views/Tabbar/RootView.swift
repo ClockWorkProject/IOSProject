@@ -12,68 +12,82 @@ import Introspect
 struct RootView: View {
     
     @StateObject var viewRouter         = ViewRouter()
-    @StateObject var groupObserver      = GroupObserver.shared
-    @StateObject var stopwatchObserver  = Stopwatch.shared
-    @StateObject var projectObserver    = ProjectObserver.shared
-    @StateObject var dateObserver       = DateObserver.shared
+    @StateObject var stopwatchObserver  = Stopwatch()
+    @StateObject var projectObserver    = ProjectObserver()
+    @StateObject var dateObserver       = DateObserver()
+    @StateObject var groupUserObserver  = GroupUserObserver()
+    
+    
+    @ObservedObject var authObserver: AuthentificationObserver
     
     var body: some View {
         NavigationView{
             // Warte bis Gruppe geladen ist
-            if groupObserver.loading {
-                MiddleProgressView(color: Color.main)
-            }
-            else {
                 GeometryReader { geometry in
                     //Views in dr Tabbar
                     VStack {
                         // Wenn timer läuft zeige Timer über allen anderen Views an
                         if  stopwatchObserver.isRunning ?? false {
-                            TimerView()
+                            TimerView(stopwatch: stopwatchObserver)
                             Spacer()
                         }
                         // Zeige View je nach geöffneter tab
+                        if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
                         switch viewRouter.currentPage {
                         case .home:
-                            //Wenn in Gruppe öffne Tages Statistiken
-                            if groupObserver.hasGroup {
-                                ToggleView()
-                            }
-                            else {
-                                //sonst zeige gruppe erstellen/beitreten Bildschirm
-                                CreateGroupView()
-                            }
+                            ToggleView(dateObserver: dateObserver)
                         case .issueBoard:
                             IssueRootView(projectObserver: projectObserver)
                         case .statistic:
-                            StatisticView()
+                            StatisticView(groupUserObserver: groupUserObserver)
                         case .user:
-                            ProfilView()
+                            ProfilView(authObserver: authObserver)
                         }
-                        Spacer()
+                            Spacer()
+                        }
+                        
                         // Tabbbar
-                        TabBarView(geometry: geometry, viewRouter: viewRouter, hasGroup: groupObserver.hasGroup)
+                        if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
+                            TabBarView(geometry: geometry,viewRouter: viewRouter, projectObserver: projectObserver, stopwatchObserver: stopwatchObserver)
+                        }
+                        else {
+                            TabView {
+                                CreateGroupView()
+                                    .tabItem {
+                                        Image(systemName: "group")
+                                        Text("First Tab")
+                                    }
+                                ProfilView(authObserver: authObserver)
+                                    .tabItem {
+                                        Image(systemName: "person")
+                                        Text("First Tab")
+                                    }
+                            }
+                        }
                     }
                     // introspect um die Topbar zufärben
                 }
-            }
         }
         .introspectNavigationController{ (UINavigatioController) in
             UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
             UINavigatioController.navigationBar.tintColor = UIColor.white
             UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
         }
-        .onChange(of:  groupObserver.hasGroup, perform: {hasGroup in
-            print("change")
-            if hasGroup {
-                dateObserver.observeDates(groupID: groupObserver.groupID)
-                projectObserver.observeProjects(groupID: groupObserver.groupID)
+        .onAppear(perform: {
+            if let  groupID = authObserver.logdInUser?.groupID, !groupID.isEmpty{
+                dateObserver.observeDates(groupID: groupID)
+                projectObserver.observeProjects(groupID: groupID)
+                groupUserObserver.observeUser(groupID: groupID)
             }
         })
-        .onAppear(perform:  {
-            groupObserver.groupListener()
+        .onChange(of:  authObserver.logdInUser, perform: {user in
+            print("change")
+            if let groupID = user?.groupID, !groupID.isEmpty{
+                dateObserver.observeDates(groupID: groupID)
+                projectObserver.observeProjects(groupID: groupID)
+                groupUserObserver.observeUser(groupID: groupID)
+            }
         })
-        
     }
 }
 

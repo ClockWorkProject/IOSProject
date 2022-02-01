@@ -36,7 +36,17 @@ struct GroupUser: Hashable, Identifiable {
                 toggledDates.append(date)
             }
         }
-        toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
+        let dateFormatter : DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            return formatter
+        }()
+        toggledDates = toggledDates.sorted(by: {(date0,date1) -> Bool in
+
+            return dateFormatter.date(from: date0.dateString) ?? Date() > dateFormatter.date(from: date1.dateString) ?? Date()
+        })
     }
     
 }

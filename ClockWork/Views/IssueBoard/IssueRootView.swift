@@ -19,7 +19,7 @@ struct IssueRootView: View {
             }
             // wenn es noch kein projekt in der Gruppe gibt
             else if projectObserver.projects.isEmpty {
-                EmptyProjectView()
+                EmptyProjectView(projectObserver: projectObserver)
             }
             // normales IssueBoard
             else {

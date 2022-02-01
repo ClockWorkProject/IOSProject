@@ -2,7 +2,7 @@
 //  TextFieldAlert.swift
 //  ClockWork
 //
-//https://stackoverflow.com/questions/56726663/how-to-add-a-textfield-to-alert-in-swiftui
+//  Credit: https://stackoverflow.com/questions/56726663/how-to-add-a-textfield-to-alert-in-swiftui
 //  Created by Mattis on 17.01.22.
 //
 

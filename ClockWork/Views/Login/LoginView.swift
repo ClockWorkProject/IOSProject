@@ -9,9 +9,9 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State var email = ""
+    
     @State var password = ""
-    @State var errorString: String?
+    @ObservedObject var userViewModel: AuthentificationObserver
     
     let borderColor = Color.text.opacity(0.35)
 
@@ -34,7 +34,7 @@ struct LoginView: View {
             .frame(maxWidth: .infinity, alignment: .top)
             
             // EmailFeld
-            TextField("Email", text: $email)
+            TextField("Email", text: $userViewModel.email)
                 .disableAutocorrection(true)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 24)
@@ -60,16 +60,12 @@ struct LoginView: View {
                 ).padding([.leading, .trailing], 16)
            //Login Button
             Button(action: {
-                if self.email != "" && self.password != ""{
+                if userViewModel.email != "" && self.password != ""{
                     // Wenn passwort und email eingegeben wurde versuche dich einzuloggen
-                    LoginController.logIn(email: email, password: password, onSuccess: {
-                        print("Sign In!")
-                    }, onError: { (error) in
-                        errorString = error
-                    })
+                   userViewModel.logIn(password: password)
                 }
                 else {
-                    errorString = "Bitte geben sie ein Passwort und eine Email-Adresse ein"
+                    userViewModel.loginState = .error("Bitte geben sie ein Passwort und eine Email-Adresse ein")
                 }
             },
                    label: {
@@ -93,15 +89,10 @@ struct LoginView: View {
                 
                 Button(action: {
                     // Wenn passwort und email eingegeben wurde versuche dich zu regestrieren
-                    if self.email != "" && self.password != ""{
-                        LoginController.signUpUser(email: email, password: password, onSuccess: {
-                            print("Sign In!")
-                        }, onError: { (error) in
-                            errorString = error
-                            
-                        })
+                    if userViewModel.email != "" && self.password != ""{
+                        userViewModel.signUpUser(password: password)
                     } else {
-                        errorString = "Bitte geben sie ein Passwort und eine Email adresse ein"
+                        userViewModel.loginState = .error("Bitte geben sie ein Passwort und eine Email-Adresse ein")
                     }
                 }, label: {
                         Text("Registrieren")
@@ -115,14 +106,6 @@ struct LoginView: View {
                 Spacer()
             }
             Spacer()
-        }
-        // Alert für Error
-        .alert(item: $errorString, content: {errorMessage in Alert(
-            title: Text("Fehler"),
-            message: Text(errorMessage),
-            dismissButton: .default(Text("Okay"), action: {
-                
-            })
-        )})
+        }       // Alert für Error
     }
 }

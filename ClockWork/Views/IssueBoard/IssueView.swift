@@ -18,7 +18,7 @@ struct IssueView: View {
             HStack {
                 Spacer()
                 // Form Picker nur ohne Form
-                NavigationLink(destination: PickView()) {
+                NavigationLink(destination: PickView(projectObserver: projectObserver)) {
                     HStack {
                         Text("Projekt:")
                             .foregroundColor(Color.black)

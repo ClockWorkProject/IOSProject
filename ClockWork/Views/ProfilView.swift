@@ -6,27 +6,54 @@
 //
 
 import SwiftUI
-import Firebase
 
 struct ProfilView: View {
+    
+    @ObservedObject var authObserver : AuthentificationObserver
+    
     var body: some View {
-        Button(action: {
-            try? Auth.auth().signOut()
-        },
-               label: {
-            Text("Ausloggen")
+        VStack(alignment: .center){
+            Spacer()
+            Text("Benutzername:")
+                .padding(8)
+            Text (authObserver.logdInUser?.username ?? "")
+                .padding(8)
+            Button(action: {
                 
-                .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
-                .background(Color.main)
-                .clipShape(Capsule())
-                .padding([.leading, .trailing], 16)
-                .padding([.bottom], 8)
-                .padding([.top],32)
-                .font(Font.system(size: 21, weight: .semibold))
-                .foregroundColor(Color.white)
+            },
+                   label: {
+                Text("Info")
                 
-            
-        })
+                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
+                    .background(Color.main)
+                    .clipShape(Capsule())
+                    .padding([.leading, .trailing], 16)
+                    .padding([.bottom], 8)
+                    .padding([.top],32)
+                    .font(Font.system(size: 21, weight: .semibold))
+                    .foregroundColor(Color.white)
+                
+                
+            })
+            Button(action: {
+                authObserver.logout()
+            },
+                   label: {
+                Text("Ausloggen")
+                
+                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
+                    .background(Color.main)
+                    .clipShape(Capsule())
+                    .padding([.leading, .trailing], 16)
+                    .padding([.bottom], 8)
+                    .padding([.top],32)
+                    .font(Font.system(size: 21, weight: .semibold))
+                    .foregroundColor(Color.white)
+                
+                
+            })
+            Spacer()
+        }
     }
 }
 

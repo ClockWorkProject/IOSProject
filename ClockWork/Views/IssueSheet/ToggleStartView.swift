@@ -10,8 +10,8 @@ import Introspect
 
 struct ToggleStartView: View {
     
-    @ObservedObject var projectObserver = ProjectObserver.shared
-    @ObservedObject var stopwatchObserver = Stopwatch.shared
+    @ObservedObject var projectObserver : ProjectObserver
+    @ObservedObject var stopwatchObserver : Stopwatch
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -44,11 +44,5 @@ struct ToggleStartView: View {
                             }
                 }
 
-    }
-}
-
-struct ToggleStartView_Previews: PreviewProvider {
-    static var previews: some View {
-        ToggleStartView()
     }
 }

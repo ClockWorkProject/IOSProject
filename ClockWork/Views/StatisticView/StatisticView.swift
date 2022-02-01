@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StatisticView: View {
     
-    @ObservedObject var groupUserObserver = GroupUserObserver.shared
+    @ObservedObject var groupUserObserver : GroupUserObserver
     @State var showingSheet = false
     @State var groupUser: GroupUser? = nil
     @State private var handle: (UInt,UInt) = (0,0)
@@ -41,16 +41,6 @@ struct StatisticView: View {
             }
             
         }
-        .onAppear(perform: {
-            handle = groupUserObserver.observeUser()
-        })
-        
-       
     }
 }
 
-struct StatisticView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatisticView()
-    }
-}

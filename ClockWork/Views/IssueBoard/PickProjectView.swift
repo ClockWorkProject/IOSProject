@@ -11,14 +11,14 @@ struct PickView: View {
 
     @Environment(\.presentationMode) var presentationMode
     @State private var isShowing = false
-    @ObservedObject var projectObserver = ProjectObserver.shared
+    @ObservedObject var projectObserver : ProjectObserver
 
     
     
     var body: some View {
         VStack {
             if isShowing {
-                MakeProjectView(isShowing: $isShowing)
+                MakeProjectView(isShowing: $isShowing, projectObserver: projectObserver)
                     .navigationBarTitle("Projekt erstellen")
             }
            else {
@@ -58,6 +58,7 @@ struct MakeProjectView: View {
     
     @State var input = ""
     @Binding var isShowing: Bool
+    @ObservedObject var projectObserver: ProjectObserver
     let borderColor = Color.text.opacity(0.35)
     
     var body: some View {
@@ -78,15 +79,10 @@ struct MakeProjectView: View {
                 .padding([.leading, .trailing], 16)
             Button(action: {
                 withAnimation {
-                    let groupID = GroupObserver.shared.groupID
-                    FirebaseRepo.addProjectToGroup(groupID: groupID, name: input, onSuccess: {
-                        withAnimation {
-                            self.isShowing.toggle()
-                        }
-                    }, onError: {errorMessage in
-                        
-                    })
-
+                    if let groupID = AuthentificationObserver.shared.logdInUser?.groupID {
+                        projectObserver.createProject(name: input, groupId: groupID)
+                        isShowing.toggle()
+                    }
                 }
             },
                    label: {

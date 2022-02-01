@@ -1,35 +1,30 @@
 //
-//  DetailScreen.swift
+//  SwiftUIView.swift
 //  ClockWork
 //
-//  Created by Mattis on 28.12.21.
+//  Created by Mattis on 01.02.22.
 //
 
 import SwiftUI
 
-struct AddIssueView: View {
+struct IssueDetailView: View {
     
-    var issuePage: IssuePages
-    var issueNumber : Int
+
     @Environment(\.presentationMode) var presentationMode
-    // Damit man nicht zu viele Zeichen eingeben kann
-    @ObservedObject var textBindingManager = TextBindingManager(limit: 100)
-    @State var issueName = ""
-    @State var issuDescription = ""
+    var issue: Issue
     let borderColor = Color.text.opacity(0.35)
     
     var body: some View {
+        NavigationView {
         VStack(alignment: .leading){
             HStack {
-                Text("#\(issueNumber+1)")
+                Text("#\(issue.number)")
                     .font(.footnote)
                     .padding([.leading], 8)
                 Text("Issue")
                     .font(.footnote)
             }
-            TextField("IssueTitel", text: $issueName)
-                .disableAutocorrection(true)
-                
+            Text("\(issue.name)")
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 24)
                 .padding(8)
@@ -38,7 +33,6 @@ struct AddIssueView: View {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(borderColor, lineWidth: 1)
                 )
-                .background(Color.white)
                 .padding([.bottom], 8)
                 .padding([.top],8)
                 .padding([.leading, .trailing], 8)
@@ -46,27 +40,21 @@ struct AddIssueView: View {
                 .font(.footnote)
                 .padding([.leading, .trailing], 8)
             // Texteditor
-            TextEditor(text: $textBindingManager.text)
+            Text("\(issue.description ?? "")")
                 .foregroundColor(Color.black)
+                .padding(8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 5)
+                    RoundedRectangle(cornerRadius: 5 )
                         .stroke(borderColor, lineWidth: 1)
                 )
-                .padding([.leading, .trailing], 8)
+                
             
             Button(action: {
-                if !issueName.isEmpty {
-                    let issue = Issue(name: issueName, number: String(issueNumber+1), description: textBindingManager.text , issueState: issuePage)
-                    FirebaseRepo.addIssue(issue: issue, onSuccess: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, onError: { errorMessage in
-                        print(errorMessage)
-                    })
-                }
+               
             },
                    label: {
-                Text("Issue erstellen")
-                    
+                Text("Issue bearbeiten")
                     .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
                     .background(Color.main)
                     .clipShape(Capsule())
@@ -80,17 +68,22 @@ struct AddIssueView: View {
             })
         }
         // gleiches Overlay wie bei den Issuepage
-            .padding(10)
-            .background(Color( "LightGrey"))
-            .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
-                        
-                )
-                .padding(8)
-                .navigationBarTitle("Issue erstellen", displayMode: .inline)
-                .onTapGesture {
-                    self.hideKeyboard()
-                }
+        .padding(10)
+                   .background(Color( "LightGrey"))
+                   .overlay(
+                           RoundedRectangle(cornerRadius: 10)
+                               .stroke(Color.gray, lineWidth: 1)
+                               
+                       )
+                       .padding(8)
+                       .navigationBarTitle("Issue", displayMode: .inline)
+                       .introspectNavigationController{ (UINavigatioController) in
+                           UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
+                           UINavigatioController.navigationBar.tintColor = UIColor.white
+                           UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+                       }
+        }
+        
+  
     }
 }

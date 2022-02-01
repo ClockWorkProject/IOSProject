@@ -12,6 +12,7 @@ struct EmptyProjectView: View {
     
     @State private var isShowingAlert = false
     @State private var alertInput = ""
+    @ObservedObject var projectObserver : ProjectObserver
 
     var body: some View {
         Text("Für diese Gruppe gibt es noch keine Projekte. Sie können jetzt welche erstellen")
@@ -38,11 +39,11 @@ struct EmptyProjectView: View {
             .navigationBarTitle("Gruppe beitreten", displayMode: .inline)
     }
     func addProject(name: String) {
-        let groupID = GroupObserver.shared.groupID
-        FirebaseRepo.addProjectToGroup(groupID: groupID, name: name, onSuccess: {
-            
-        }, onError: {errorMessage in
-            
-        })
+        if let groupID = AuthentificationObserver.shared.logdInUser?.groupID {
+            projectObserver.createProject(name: name, groupId: groupID)
+        }
+        else {
+            print("kein User")
+        }
     }
 }

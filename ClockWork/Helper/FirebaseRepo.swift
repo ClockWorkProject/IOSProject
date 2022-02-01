@@ -16,48 +16,46 @@ class FirebaseRepo {
     private static let userPath = "user"
     private static let ref = Database.database().reference()
     private static let dateFormat = "dd-MM-yyyy"
+    private static let groupDB = Database.database().reference().child("groups")
+    private static let usersDB = Database.database().reference().child("user")
     
-    static func addUser(onSuccess: @escaping(_ username : String) -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
+    static func addUser(onError: @escaping (_ errorMessage : String) -> Void, onSuccess: @escaping(_ user : User) -> Void) {
         guard let currentUser = Auth.auth().currentUser else {
-            onError("User konnte nicht erstellt werden")
+            onError("User konnte nicht gespeichert werden. Loggen ise sich nochmal an")
             return
         }
         guard let username = currentUser.email?.components(separatedBy: "@")[0] else {
-            onError("User konnte nicht erstellt werden")
+            onError("User konnte nicht gespeichert werden. Loggen ise sich nochmal an")
             return
         }
         let user = User(id: currentUser.uid, username: username, groupID: "")
         do {
-            try ref.child("\(userPath)/\(currentUser.uid)").setValue(from: user)
-            onSuccess(username)
+            try usersDB.child("\(currentUser.uid)").setValue(from: user)
+            onSuccess(user)
+            
         } catch let error {
-                 onError(error.localizedDescription)
+            onError (error.localizedDescription)
         }
         
     }
     
-    static func addGroup(name: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
+    static func addGroup(user: User, name: String, onSuccess: @escaping(_ groupID : String) -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
         
-        guard let groupID = ref.child(groupPath).childByAutoId().key else {
-            onError("Gruppe konnte nicht erstellt werden")
-            return
-        }
-        
-        guard let currentUser = Auth.auth().currentUser else {
+        guard let groupID = groupDB.childByAutoId().key else {
             onError("Gruppe konnte nicht erstellt werden")
             return
         }
         
         let group = WorkGroup(id: groupID, name: name)
         do {
-            try ref.child("\(groupPath)/\(groupID)").setValue(from: group)
-            ref.child("\(groupPath)/\(groupID)/user/\(currentUser.uid)").setValue(["role": "admin" ,"name": AuthentificationObserver.shared.username]) {
+            try groupDB.child("\(groupID)").setValue(from: group)
+            groupDB.child("\(groupID)/user/\(user.id)").setValue(["role": "admin" ,"name": user.username]) {
                 (error:Error?, ref:DatabaseReference) in
                 if let error = error {
                     onError(error.localizedDescription)
                 } else {
-                    addUserToGroup(groupID: groupID, onSuccess: {
-                        onSuccess()
+                    self.addUserToGroup(user: user, groupID: groupID, onSuccess: {
+                        onSuccess(groupID)
                     }, onError: { errorMessage in
                         onError(errorMessage)
                     })
@@ -69,25 +67,22 @@ class FirebaseRepo {
         
     }
     
-    static func enterGroup(groupID: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
-        guard let currentUser = Auth.auth().currentUser else {
-            onError("Gruppe konnte nicht erstellt werden")
-            return
-        }
-        ref.child("\(groupPath)/\(groupID)").getData(completion:  { error, snapshot in
+    static func enterGroup(user: User, groupID: String, onSuccess: @escaping(_ groupID : String) -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
+        
+        groupDB.child("\(groupID)").getData(completion:  { error, snapshot in
             guard error == nil else {
                 onError(error?.localizedDescription ?? "sehr komischer Fehler")
                 return
             }
             if snapshot.exists() {
             print(snapshot.exists())
-                            ref.child("\(groupPath)/\(groupID)/user/\(currentUser.uid)").setValue(["role": "member" ,"name": AuthentificationObserver.shared.username]) {
+                self.groupDB.child("\(groupID)/user/\(user.id)").setValue(["role": "member" ,"name": user.username]) {
                                 (error:Error?, ref:DatabaseReference) in
                                 if let error = error {
                                     onError(error.localizedDescription)
                                 } else {
-                                    addUserToGroup(groupID: groupID, onSuccess: {
-                                        onSuccess()
+                                    self.addUserToGroup(user: user, groupID: groupID, onSuccess: {
+                                        onSuccess(groupID)
                                     }, onError: { errorMessage in
                                         onError(errorMessage)
                                     })
@@ -101,16 +96,11 @@ class FirebaseRepo {
         })
     }
     
-    static func addUserToGroup(groupID: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
+    static func addUserToGroup(user: User,groupID: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         
-        guard let currentUser = Auth.auth().currentUser else {
-            onError("User konnte nicht erstellt werden")
-            return
-        }
-        
-        let update = ["\(userPath)/\(currentUser.uid)/groupID": groupID]
+        let update = ["\(user.id)/groupID": groupID]
                       
-        ref.updateChildValues(update) {
+        usersDB.updateChildValues(update) {
             (error:Error?, ref:DatabaseReference) in
             if let error = error {
                 onError(error.localizedDescription)
@@ -120,8 +110,9 @@ class FirebaseRepo {
         }
         
     }
+
     
-    static func addProjectToGroup(groupID: String, name: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
+    static func addProjectToGroup(groupID: String, name: String, onSuccess: @escaping(_ project: Project) -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         print(groupID)
         let projectsRef = ref.child("\(groupPath)/\(groupID)/projects")
         guard let projectID = projectsRef.childByAutoId().key else {
@@ -132,18 +123,19 @@ class FirebaseRepo {
         
         do {
             try projectsRef.child(projectID).setValue(from: project)
-            onSuccess()
+            onSuccess(project)
         }
         catch {
             onError("Es konnte kein Projekt erstellt werden")
         }
     }
     
-    static func addIssue(groupID: String, issue: Issue, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
+    static func addIssue(issue: Issue, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         guard let projectID =   UserDefaults.standard.string(forKey: "savedProjectId") else {
             onError("Es konnte kein Projekt erstellt werden")
             return
         }
+        let groupID = AuthentificationObserver.shared.logdInUser?.groupID ?? ""
         let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues")
         guard let issueID = issueRef.childByAutoId().key else {
             onError("Es konnte kein Projekt erstellt werden")
@@ -165,7 +157,7 @@ class FirebaseRepo {
             onError("Es konnte kein Projekt erstellt werden")
             return
         }
-        let groupID = GroupObserver.shared.groupID
+        let groupID = AuthentificationObserver.shared.logdInUser?.groupID ?? ""
         let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues/\(issue.id)/")
         print(issueRef)
         issueRef.updateChildValues(["issueState" : page.rawValue])

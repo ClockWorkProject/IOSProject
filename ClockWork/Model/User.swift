@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct User: Codable {
+struct User: Codable, Equatable {
     
     var id: String
     var username: String
     var groupID: String?
+    var admin: Bool?
 }

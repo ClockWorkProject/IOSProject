@@ -12,48 +12,69 @@ import FirebaseDatabaseSwift
 
 final class DateObserver: ObservableObject {
     
-    static let shared = DateObserver()
-    let groupDB = Database.database().reference().child("groups")
+
+
+    private let dateFormatter : DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return formatter
+    }()
     
+    private var ref = Database.database().reference().child("groups")
+    private var newDateHandle: UInt = 0
+    private var updateHandle: UInt = 0
+    
+
     @Published var toggledDates: [ToggledDate] = []
     
-    func observeDates(groupID: String) -> (UInt, UInt){
+    func observeDates(groupID: String) {
         guard let currentUser = Auth.auth().currentUser else {
             print("UserError")
-            return (0, 0)
+            return
         }
         if !groupID.isEmpty {
-            let handle = groupDB.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childAdded, with: { snapshot in
+            ref = ref.child("\(groupID)/user/\(currentUser.uid)/dates")
+            newDateHandle = ref.observe(.childAdded, with: {  snapshot in
                     if let toggledDate = ToggledDate(snapshot: snapshot) {
                         //replace old data
                         if let index = self.toggledDates.firstIndex(where: { $0.dateString ==  toggledDate.dateString}) {
                             self.toggledDates[index] = toggledDate
-                            self.toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
+                            self.toggledDates = self.toggledDates.sorted(by: {(date0,date1) -> Bool in
+                                return self.dateFormatter.date(from: date0.dateString) ?? Date() > self.dateFormatter.date(from: date1.dateString) ?? Date()
+                            })
                         }
                         // if not exist
                         else if !self.toggledDates.contains(toggledDate) {
                             self.toggledDates.append(toggledDate)
-                            self.toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
+                            self.toggledDates = self.toggledDates.sorted(by: {(date0,date1) -> Bool in
+
+                                return self.dateFormatter.date(from: date0.dateString) ?? Date() > self.dateFormatter.date(from: date1.dateString) ?? Date()
+                            })
                         }
                         else {
                             print("contains")
                         }
 
-                    } 
+                    }
             })
-            let updateHandler = groupDB.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childChanged, with: { snapshot in
+            updateHandle = ref.child("\(groupID)/user/\(currentUser.uid)/dates").observe(.childChanged, with: { snapshot in
                 if let toggledDate = ToggledDate(snapshot: snapshot) {
                     if let index = self.toggledDates.firstIndex(where: { $0.dateString == toggledDate.dateString }) {
                         self.toggledDates[index] = toggledDate
                     }
                 }
             })
-            toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
-            return (handle, updateHandler)
         }
         else {
             print(#file, "no groupID")
-            return(0,0)
         }
+    }
+    
+    deinit {
+        print("removeIssueListener")
+        ref.removeObserver(withHandle: updateHandle)
+        ref.removeObserver(withHandle: newDateHandle)
     }
 }

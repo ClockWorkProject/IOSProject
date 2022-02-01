@@ -11,8 +11,6 @@ import Firebase
 
 final class ProjectObserver: ObservableObject {
     
-    static let shared = ProjectObserver()
-    
     @Published var projects : [Project] = []
     @Published var savedProject : Project?
     @Published var issues : [Issue] = []
@@ -114,25 +112,21 @@ final class ProjectObserver: ObservableObject {
         else {
             print("no groupID")
         }
-
-    }
-
-    func unlistenIssue() {
-            print("removeIssueListener")
-            ref.removeObserver(withHandle: updateHandle)
-            ref.removeObserver(withHandle: newProjectHandle)
     }
     
+    func createProject(name: String, groupId: String) {
+        FirebaseRepo.addProjectToGroup(groupID: groupId, name: name, onSuccess: { project in
+            self.savedProject = project
+            UserDefaults.standard.set(self.savedProject?.id,forKey: "savedProjectId")
+        }, onError: { errorMessage in
+            
+        })
+    }
     
     
-    private func indexOfMessage(snapshot: DataSnapshot) -> Int {
-        var index = 0
-        for  project in self.projects {
-          if (snapshot.key == project.id) {
-            return index
-          }
-          index += 1
-        }
-        return -1
-      }
+    deinit {
+        print("removeIssueListener")
+        ref.removeObserver(withHandle: updateHandle)
+        ref.removeObserver(withHandle: newProjectHandle)
+    }
 }

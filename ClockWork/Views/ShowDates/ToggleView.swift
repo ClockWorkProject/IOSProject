@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ToggleView: View {
     
-    @ObservedObject var dateObserver = DateObserver.shared
+    @ObservedObject var dateObserver : DateObserver
     
     var body: some View {
         ScrollView{
@@ -22,8 +22,3 @@ struct ToggleView: View {
     }
 }
 
-struct ToggleView_Previews: PreviewProvider {
-    static var previews: some View {
-        ToggleView()
-    }
-}
