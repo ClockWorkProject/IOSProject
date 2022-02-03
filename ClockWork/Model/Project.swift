@@ -21,12 +21,13 @@ struct Project: Hashable, Codable, Identifiable {
     var issues: [Issue] = []
     
     
+    // erstellt aus Snapchot ein Projekt wenn nicht gibt er nil zurück
     init?(snapshot: DataSnapshot) {
         guard
             let value = snapshot.value as? [String: AnyObject],
             let name = value["name"] as? String
         else {
-            print(#line,"wrongKeys")
+            print(#file,#line,"wrongKeys")
             return nil
         }
         self.id = snapshot.key
@@ -40,7 +41,7 @@ struct Project: Hashable, Codable, Identifiable {
                     let issueNumber = value["number"] as? String,
                     let issueDescrption = value["description"] as? String
                 else {
-                    print(#line, "wrongKeys")
+                    print(#file,#line, "wrongKeys")
                     return
                 }
                 self.issues.append(Issue(name: issueName, id: key, number: issueNumber, description: issueDescrption, issueState: IssuePages(rawValue: issueState) ?? .open))

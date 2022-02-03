@@ -21,7 +21,7 @@ struct TabBarView: View {
         ZStack {
             HStack {
                 // Toogle Icon
-                TabBarIcon(viewRouter: viewRouter, assignedPage: .home, isDisabled: false, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "clock.arrow.circlepath", tabName: "Toggle")
+                TabBarIcon(viewRouter: viewRouter, assignedPage: .home, isDisabled: false, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "calendar.badge.clock", tabName: "Toggle")
                 // IssueView nur klickbar wenn in Gruppe
                 TabBarIcon(viewRouter: viewRouter, assignedPage: .issueBoard, isDisabled: !hasGroup, width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "list.dash", tabName: "Issues")
                 // wenn in Gruppe zeige Floatin Button
@@ -32,10 +32,10 @@ struct TabBarView: View {
                             .foregroundColor(Color.white)
                             .frame(width: geometry.size.width/7, height: geometry.size.width/7)
                             .shadow(radius: 4)
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: "clock.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: geometry.size.width/7-6 , height: geometry.size.width/7-6)
+                            .frame(maxWidth: geometry.size.width/7-6 , maxHeight: geometry.size.width/7-6)
                             .foregroundColor(Color.main)
                             .rotationEffect(Angle(degrees: showingSheet ? 90 : 0))
                     }

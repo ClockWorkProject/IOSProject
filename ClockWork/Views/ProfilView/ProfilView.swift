@@ -9,16 +9,19 @@ import SwiftUI
 
 struct ProfilView: View {
     
-    @ObservedObject var authObserver : AuthentificationObserver
+    @ObservedObject var authObserver : AuthentificationViewModel
+    var stopwatch : Stopwatch?
     @State var isShowing = false
     
     var body: some View {
         VStack(alignment: .center){
             Spacer()
+            // Benutzername
             Text("Benutzername:")
-                .padding(8)
+                .font(.title2)
             Text (authObserver.logdInUser?.username ?? "")
-                .padding(8)
+                .font(.title2)
+            
             Button(action: {
                 isShowing.toggle()
             },
@@ -29,15 +32,16 @@ struct ProfilView: View {
                     .background(Color.main)
                     .clipShape(Capsule())
                     .padding([.leading, .trailing], 16)
-                    .padding([.bottom], 8)
+                    .padding([.bottom], 16)
                     .padding([.top],32)
                     .font(Font.system(size: 21, weight: .semibold))
                     .foregroundColor(Color.white)
                 
                 
             })
+            // Ausloggen
             Button(action: {
-                authObserver.logout()
+                authObserver.logout(stopwatch: stopwatch)
             },
                    label: {
                 Text("Ausloggen")
@@ -47,7 +51,6 @@ struct ProfilView: View {
                     .clipShape(Capsule())
                     .padding([.leading, .trailing], 16)
                     .padding([.bottom], 8)
-                    .padding([.top],32)
                     .font(Font.system(size: 21, weight: .semibold))
                     .foregroundColor(Color.white)
                 
@@ -55,6 +58,7 @@ struct ProfilView: View {
             })
             Spacer()
         }
+        .navigationBarTitle("Profil", displayMode: .inline)
         .sheet(isPresented: $isShowing) {
             LicenceView()
         }

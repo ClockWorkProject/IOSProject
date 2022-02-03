@@ -65,8 +65,10 @@ extension Stopwatch {
     }
 
     func stop() {
-        if let groupID  = AuthentificationObserver.shared.logdInUser?.groupID {
-            FirebaseRepo.addTime(groupID: groupID, startDate: startTime!, time: Date().timeIntervalSince(startTime!), issue: issue!, project: project!, onSuccess: {print("Sucess")}, onError: { errorMessage in print(errorMessage)})
+        if let groupID  = AuthentificationViewModel.shared.logdInUser?.groupID {
+            if let startTime = startTime, let issue = issue, let project = project {
+            FirebaseRepo.addTime(groupID: groupID, startDate: startTime, time: Date().timeIntervalSince(startTime), issue: issue, project: project, onSuccess: {print("Zeit gespeichert")}, onError: { errorMessage in print(errorMessage)})
+            }
             timer?.cancel()
             timer = nil
             startTime = nil

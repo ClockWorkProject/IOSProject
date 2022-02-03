@@ -15,16 +15,24 @@ struct StatisticView: View {
     @State private var handle: (UInt,UInt) = (0,0)
     
     var body: some View {
-        VStack {
-            List(groupUserObserver.groupUsers, id: \.self) {groupUser in
-                Button(action: {
-                    self.groupUser = groupUser
-                    showingSheet = true
-                }, label: {
-                    Text(groupUser.username)
-                }) 
-            }.listStyle(.plain)
+        VStack(alignment: .center) {
+            if AuthentificationViewModel.shared.logdInUser?.admin ?? false{
+                List(groupUserObserver.groupUsers, id: \.self) {groupUser in
+                    Button(action: {
+                        self.groupUser = groupUser
+                        showingSheet = true
+                    }, label: {
+                        Text(groupUser.username)
+                    })
+                }.listStyle(.plain)
+            } else {
+                Spacer()
+                Text("Wenn sie Admin sehen hier die Nutzerstatistike, die eigenen Statistiken sind gerade noch Work in Progress 🛠 kommen sie dafür bald wieder 😊")
+                    .padding(16)
+                Spacer()
+            }
         }
+        .navigationBarTitle("Statistiken", displayMode: .inline)
         .sheet(item: self.$groupUser) {item in
             NavigationView{
                 ScrollView{
@@ -32,7 +40,7 @@ struct StatisticView: View {
                         CardView(toggledDate: toggledDate)
                     }
                 }
-                .navigationBarTitle("Toggles", displayMode: .inline)
+                .navigationBarTitle(groupUser?.username ?? "", displayMode: .inline)
                 .introspectNavigationController{ (UINavigatioController) in
                     UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
                     UINavigatioController.navigationBar.tintColor = UIColor.white

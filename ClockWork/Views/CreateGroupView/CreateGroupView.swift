@@ -57,9 +57,14 @@ struct CreateGroupView: View {
                 
             })
             Spacer()
-        }.textFieldAlert(isShowing: $isShowingCreateAlert, placeholder: "Gruppenname" ,title: "Gruppe erstellen!", onAdd: groupViewModel.addGroup(name:))
-            .textFieldAlert(isShowing: $isShowingEnterAlert, placeholder: "Gruppenid" ,title: "Gruppe erstellen!", onAdd: groupViewModel.enterGroup(groupID:))
-            .navigationBarTitle("Gruppe beitreten", displayMode: .inline)
+                
+        }
+        .textFieldAlert(isShowing: $isShowingCreateAlert, placeholder: "Gruppenname" ,title: "Gruppe erstellen!", onAdd: groupViewModel.addGroup(name:))
+            .textFieldAlert(isShowing: $isShowingEnterAlert, placeholder: "Gruppenid" ,title: "Gruppe beitreten!", onAdd: groupViewModel.enterGroup(groupID:))
+            .alert(item: $groupViewModel.errorMessage, content: {errorMessage in
+                Alert(title: Text("Fehler"), message: Text(errorMessage), dismissButton:  .default(Text("Okay")))
+            })
+            
         
     }
 }

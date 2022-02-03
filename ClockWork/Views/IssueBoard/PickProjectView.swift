@@ -79,7 +79,7 @@ struct MakeProjectView: View {
                 .padding([.leading, .trailing], 16)
             Button(action: {
                 withAnimation {
-                    if let groupID = AuthentificationObserver.shared.logdInUser?.groupID {
+                    if let groupID = AuthentificationViewModel.shared.logdInUser?.groupID {
                         projectObserver.createProject(name: input, groupId: groupID)
                         isShowing.toggle()
                     }

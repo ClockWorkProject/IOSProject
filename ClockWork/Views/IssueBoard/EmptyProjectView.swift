@@ -39,7 +39,7 @@ struct EmptyProjectView: View {
             .navigationBarTitle("Gruppe beitreten", displayMode: .inline)
     }
     func addProject(name: String) {
-        if let groupID = AuthentificationObserver.shared.logdInUser?.groupID {
+        if let groupID = AuthentificationViewModel.shared.logdInUser?.groupID {
             projectObserver.createProject(name: name, groupId: groupID)
         }
         else {

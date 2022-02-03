@@ -119,7 +119,7 @@ class FirebaseRepo {
             onError("Gruppe konnte nicht erstellt werden")
             return
         }
-        let project = Project(id: groupID, name: name, issues: [])
+        let project = Project(id: projectID, name: name, issues: [])
         
         do {
             try projectsRef.child(projectID).setValue(from: project)
@@ -131,11 +131,11 @@ class FirebaseRepo {
     }
     
     static func addIssue(issue: Issue, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
-        guard let projectID =   UserDefaults.standard.string(forKey: "savedProjectId") else {
+        guard let projectID = UserDefaults.standard.string(forKey: "savedProjectId") else {
             onError("Es konnte kein Projekt erstellt werden")
             return
         }
-        let groupID = AuthentificationObserver.shared.logdInUser?.groupID ?? ""
+        let groupID = AuthentificationViewModel.shared.logdInUser?.groupID ?? ""
         let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues")
         guard let issueID = issueRef.childByAutoId().key else {
             onError("Es konnte kein Projekt erstellt werden")
@@ -157,7 +157,7 @@ class FirebaseRepo {
             onError("Es konnte kein Projekt erstellt werden")
             return
         }
-        let groupID = AuthentificationObserver.shared.logdInUser?.groupID ?? ""
+        let groupID = AuthentificationViewModel.shared.logdInUser?.groupID ?? ""
         let issueRef = ref.child("\(groupPath)/\(groupID)/projects/\(projectID)/issues/\(issue.id)/")
         print(issueRef)
         issueRef.updateChildValues(["issueState" : page.rawValue])

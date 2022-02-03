@@ -11,7 +11,7 @@ struct LoginView: View {
     
     
     @State var password = ""
-    @ObservedObject var userViewModel: AuthentificationObserver
+    @ObservedObject var userViewModel: AuthentificationViewModel
     
     let borderColor = Color.text.opacity(0.35)
 

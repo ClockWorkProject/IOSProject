@@ -12,10 +12,10 @@ final class GroupViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     func addGroup(name: String) {
-        if let user = AuthentificationObserver.shared.logdInUser {
+        if let user = AuthentificationViewModel.shared.logdInUser {
             FirebaseRepo.addGroup(user:  user, name: name, onSuccess: {groupID in
-                AuthentificationObserver.shared.logdInUser?.groupID = groupID
-                AuthentificationObserver.shared.logdInUser?.admin = true
+                AuthentificationViewModel.shared.logdInUser?.groupID = groupID
+                AuthentificationViewModel.shared.logdInUser?.admin = true
             }, onError: {errorMessage in
                 self.errorMessage = errorMessage
             })
@@ -25,10 +25,10 @@ final class GroupViewModel: ObservableObject {
         }
     }
     func enterGroup(groupID: String) {
-        if let user = AuthentificationObserver.shared.logdInUser {
+        if let user = AuthentificationViewModel.shared.logdInUser {
             FirebaseRepo.enterGroup(user: user, groupID: groupID, onSuccess: { groupID in 
-                AuthentificationObserver.shared.logdInUser?.groupID = groupID
-                AuthentificationObserver.shared.logdInUser?.admin = false
+                AuthentificationViewModel.shared.logdInUser?.groupID = groupID
+                AuthentificationViewModel.shared.logdInUser?.admin = false
                 
             }, onError: {errorMessage in
                 self.errorMessage = errorMessage

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     
-    @StateObject var userViewModal =  AuthentificationObserver.shared
+    @StateObject var userViewModal =  AuthentificationViewModel.shared
     
     
     // Start der App. Prüft ob der User eingelogt wird und zeigt dann die innere App.

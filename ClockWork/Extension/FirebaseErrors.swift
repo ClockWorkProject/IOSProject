@@ -12,13 +12,13 @@ extension AuthErrorCode {
     var errorMessage: String {
         switch self {
         case .emailAlreadyInUse:
-            return "The email is already in use with another account"
+            return "Email exestiert bereits"
         case .userDisabled:
-            return "Your account has been disabled. Please contact support."
+            return "Dein Account wurde gesperrt bitte kontaktieren sie den Support"
         case .invalidEmail:
-            return "Please enter a valid email"
+            return "Bitte geben sie eine valide Emailadresse ein"
         case .networkError:
-            return "Network error. Please try again."
+            return "Netztwerkfehler. Bitte versuchen sie es nochmal"
         case .weakPassword:
             return "Passwort zu schwach. Bitte nutzen sie min 6 Zeichen"
         case .wrongPassword:
@@ -26,7 +26,7 @@ extension AuthErrorCode {
         case .userNotFound:
             return "Ungültige Email/Passwort"
         default:
-            return "Unknown error occurred"
+            return "Ungewöhnlicher Fehler versuchen sie es nochmal"
         }
     }
 }

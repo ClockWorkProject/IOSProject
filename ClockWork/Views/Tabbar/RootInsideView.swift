@@ -17,22 +17,22 @@ struct RootInsideView: View {
     @StateObject var dateObserver       = DateObserver()
     @StateObject var groupUserObserver  = GroupUserObserver()
     
-    
-    @ObservedObject var authObserver: AuthentificationObserver
+    @ObservedObject var authObserver: AuthentificationViewModel
     
     var body: some View {
-        NavigationView{
-            // Warte bis Gruppe geladen ist
+        // Wenn Nutzer in Gruppe
+        if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
+            NavigationView{
                 GeometryReader { geometry in
                     //Views in dr Tabbar
                     VStack {
                         // Zeige View je nach geöffneter tab
-                        if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
-                            // Wenn timer läuft zeige Timer über allen anderen Views an
-                            if  stopwatchObserver.isRunning ?? false {
-                                TimerView(stopwatch: stopwatchObserver)
-                                Spacer()
-                            }
+                        // Wenn timer läuft zeige Timer über allen anderen Views an
+                        if  stopwatchObserver.isRunning ?? false {
+                            TimerView(stopwatch: stopwatchObserver)
+                            Spacer()
+                        }
+                        // Switch Current Page
                         switch viewRouter.currentPage {
                         case .home:
                             ToggleView(dateObserver: dateObserver)
@@ -41,53 +41,64 @@ struct RootInsideView: View {
                         case .statistic:
                             StatisticView(groupUserObserver: groupUserObserver)
                         case .user:
-                            ProfilView(authObserver: authObserver)
+                            ProfilView(authObserver: authObserver, stopwatch: stopwatchObserver)
                         }
-                            Spacer()
-                        }
-                        
+                        Spacer()
                         // Tabbbar
-                        if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
-                            TabBarView(geometry: geometry,viewRouter: viewRouter, projectObserver: projectObserver, stopwatchObserver: stopwatchObserver)
+                        TabBarView(geometry: geometry,viewRouter: viewRouter, projectObserver: projectObserver, stopwatchObserver: stopwatchObserver)
+                    }// Wenn erscheine suche überwache gruppen elemente
+                    .onAppear(perform: {
+                        if let  groupID = authObserver.logdInUser?.groupID, !groupID.isEmpty{
+                            
+                            projectObserver.observeProjects(groupID: groupID)
+                            groupUserObserver.observeUser(groupID: groupID)
+                            dateObserver.observeDates(groupID: groupID)
                         }
-                        else {
-                            TabView {
-                                CreateGroupView()
-                                    .tabItem {
-                                        Image(systemName: "group")
-                                        Text("First Tab")
-                                    }
-                                ProfilView(authObserver: authObserver)
-                                    .tabItem {
-                                        Image(systemName: "person")
-                                        Text("First Tab")
-                                    }
-                            }
-                        }
-                    }
-                    // introspect um die Topbar zufärben
+                    })
                 }
-        }
-        .introspectNavigationController{ (UINavigatioController) in
-            UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
-            UINavigatioController.navigationBar.tintColor = UIColor.white
-            UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
-        }
-        .onAppear(perform: {
-            if let  groupID = authObserver.logdInUser?.groupID, !groupID.isEmpty{
-                dateObserver.observeDates(groupID: groupID)
-                projectObserver.observeProjects(groupID: groupID)
-                groupUserObserver.observeUser(groupID: groupID)
+                // Farbe NavigationBar
+                .introspectNavigationController{ (UINavigatioController) in
+                    UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
+                    UINavigatioController.navigationBar.tintColor = UIColor.white
+                    UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+                }
             }
-        })
-        .onChange(of:  authObserver.logdInUser, perform: {user in
-            print("change")
-            if let groupID = user?.groupID, !groupID.isEmpty{
-                dateObserver.observeDates(groupID: groupID)
-                projectObserver.observeProjects(groupID: groupID)
-                groupUserObserver.observeUser(groupID: groupID)
+        }
+        else {
+            // Tab bar wenn in keine Gruppe
+            TabView {
+                NavigationView{
+                    CreateGroupView()
+                        .navigationBarTitle("Gruppe beitreten", displayMode: .inline)
+                }
+                .tabItem {
+                    Image(systemName: "person.3")
+                    Text("Gruppe beitreten")
+                }
+                .introspectNavigationController{ (UINavigatioController) in
+                    UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
+                    UINavigatioController.navigationBar.tintColor = UIColor.white
+                    UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+                }
+                NavigationView{
+                    ProfilView(authObserver: authObserver)
+                }
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profil")
+                }
+                .introspectNavigationController{ (UINavigatioController) in
+                    UINavigatioController.navigationBar.barTintColor = UIColor(named: "MainColor")
+                    UINavigatioController.navigationBar.tintColor = UIColor.white
+                    UINavigatioController.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+                }
             }
-        })
+            
+        }
+        // introspect um die Topbar zufärben
     }
+    
 }
+
+
 
