@@ -36,6 +36,8 @@ struct LoginView: View {
             // EmailFeld
             TextField("Email", text: $userViewModel.email)
                 .disableAutocorrection(true)
+                .autocapitalization(.none)
+                .keyboardType(.emailAddress)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .frame(height: 24)
                 .padding(8)
@@ -50,6 +52,7 @@ struct LoginView: View {
             // PasswortFelt
             SecureField("Passwort", text: $password)
                 .disableAutocorrection(true)
+                .autocapitalization(.none)
                 .frame(maxWidth: .infinity)
                 .frame(height: 24)
                 .padding(8)
