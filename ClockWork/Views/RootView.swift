@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct ChangeView: View {
+struct RootView: View {
     
     @StateObject var userViewModal =  AuthentificationObserver.shared
     
+    
+    // Start der App. Prüft ob der User eingelogt wird und zeigt dann die innere App.
     var body: some View {
         Group {
             switch userViewModal.loginState  {
@@ -19,7 +21,7 @@ struct ChangeView: View {
             case .loading:
                 MiddleProgressView(color: Color.main)
             case .loggedIn:
-                RootView(authObserver: userViewModal)
+                RootInsideView(authObserver: userViewModal)
             case let .error(errorMessage):
                 LoginView(userViewModel: userViewModal)
                     .alert(isPresented: .constant(true) , content: {

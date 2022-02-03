@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfilView: View {
     
     @ObservedObject var authObserver : AuthentificationObserver
+    @State var isShowing = false
     
     var body: some View {
         VStack(alignment: .center){
@@ -19,7 +20,7 @@ struct ProfilView: View {
             Text (authObserver.logdInUser?.username ?? "")
                 .padding(8)
             Button(action: {
-                
+                isShowing.toggle()
             },
                    label: {
                 Text("Info")
@@ -53,6 +54,9 @@ struct ProfilView: View {
                 
             })
             Spacer()
+        }
+        .sheet(isPresented: $isShowing) {
+            LicenceView()
         }
     }
 }

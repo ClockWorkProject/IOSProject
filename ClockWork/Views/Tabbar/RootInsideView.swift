@@ -9,7 +9,7 @@
 import SwiftUI
 import Introspect
 
-struct RootView: View {
+struct RootInsideView: View {
     
     @StateObject var viewRouter         = ViewRouter()
     @StateObject var stopwatchObserver  = Stopwatch()
@@ -26,13 +26,13 @@ struct RootView: View {
                 GeometryReader { geometry in
                     //Views in dr Tabbar
                     VStack {
-                        // Wenn timer läuft zeige Timer über allen anderen Views an
-                        if  stopwatchObserver.isRunning ?? false {
-                            TimerView(stopwatch: stopwatchObserver)
-                            Spacer()
-                        }
                         // Zeige View je nach geöffneter tab
                         if !(authObserver.logdInUser?.groupID?.isEmpty ?? true)  {
+                            // Wenn timer läuft zeige Timer über allen anderen Views an
+                            if  stopwatchObserver.isRunning ?? false {
+                                TimerView(stopwatch: stopwatchObserver)
+                                Spacer()
+                            }
                         switch viewRouter.currentPage {
                         case .home:
                             ToggleView(dateObserver: dateObserver)

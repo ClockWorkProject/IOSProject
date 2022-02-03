@@ -13,8 +13,8 @@
 		6D431C0A2770EDA90067D951 /* IssuePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C092770EDA90067D951 /* IssuePageView.swift */; };
 		6D431C0C2770EF5D0067D951 /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C0B2770EF5D0067D951 /* ToggleView.swift */; };
 		6D431C0E2770FE6F0067D951 /* ProfilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C0D2770FE6E0067D951 /* ProfilView.swift */; };
-		6D431C182771D1340067D951 /* ChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C172771D1340067D951 /* ChangeView.swift */; };
-		6D431C1A2771D8FA0067D951 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C192771D8FA0067D951 /* RootView.swift */; };
+		6D431C182771D1340067D951 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C172771D1340067D951 /* RootView.swift */; };
+		6D431C1A2771D8FA0067D951 /* RootInsideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C192771D8FA0067D951 /* RootInsideView.swift */; };
 		6D431C1C2771D97C0067D951 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D431C1B2771D97C0067D951 /* ViewRouter.swift */; };
 		6D7FB02B278EEB8700CC3AEC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB02A278EEB8700CC3AEC /* FirebaseAuth */; };
 		6D7FB02D278EEB8700CC3AEC /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 6D7FB02C278EEB8700CC3AEC /* FirebaseAuthCombine-Community */; };
@@ -37,6 +37,8 @@
 		6D7FB057279997CF00CC3AEC /* ProjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7FB056279997CE00CC3AEC /* ProjectObserver.swift */; };
 		6D84EF2A277B11EF00BF633B /* AddIssueScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D84EF29277B11EF00BF633B /* AddIssueScreen.swift */; };
 		6D84EF2D277C8D0F00BF633B /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D84EF2C277C8D0F00BF633B /* Stopwatch.swift */; };
+		6D999C1327A9FC1A0010AED9 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 6D999C1227A9FC1A0010AED9 /* AcknowList */; };
+		6D999C1527A9FC730010AED9 /* LicenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D999C1427A9FC730010AED9 /* LicenceView.swift */; };
 		6D9C073D278EE8BA00A6ECD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D9C073C278EE8BA00A6ECD1 /* GoogleService-Info.plist */; };
 		6DAA2DBA279C0BD100211ADF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAA2DB9279C0BD100211ADF /* DateExtension.swift */; };
 		6DAA2DBD279C2F4B00211ADF /* DatesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAA2DBC279C2F4B00211ADF /* DatesObserver.swift */; };
@@ -56,7 +58,6 @@
 		6DDB175627A992390060C3D0 /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDB175527A992390060C3D0 /* LoginState.swift */; };
 		6DDB175827A9CCDB0060C3D0 /* GroupViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDB175727A9CCDB0060C3D0 /* GroupViewModal.swift */; };
 		6DDB175A27A9E5140060C3D0 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDB175927A9E5140060C3D0 /* IssueDetailView.swift */; };
-		6DDB176227A9F19B0060C3D0 /* spm-ack in Frameworks */ = {isa = PBXBuildFile; productRef = 6DDB176127A9F19B0060C3D0 /* spm-ack */; };
 		6DECD2D22770900A007A13DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2D12770900A007A13DD /* AppDelegate.swift */; };
 		6DECD2D42770900A007A13DD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DECD2D32770900A007A13DD /* SceneDelegate.swift */; };
 		6DECD2D92770900A007A13DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DECD2D72770900A007A13DD /* Main.storyboard */; };
@@ -72,8 +73,8 @@
 		6D431C092770EDA90067D951 /* IssuePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuePageView.swift; sourceTree = "<group>"; };
 		6D431C0B2770EF5D0067D951 /* ToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleView.swift; sourceTree = "<group>"; };
 		6D431C0D2770FE6E0067D951 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
-		6D431C172771D1340067D951 /* ChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeView.swift; sourceTree = "<group>"; };
-		6D431C192771D8FA0067D951 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		6D431C172771D1340067D951 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		6D431C192771D8FA0067D951 /* RootInsideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInsideView.swift; sourceTree = "<group>"; };
 		6D431C1B2771D97C0067D951 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		6D7FB036278EF17F00CC3AEC /* AuthenticationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationObserver.swift; sourceTree = "<group>"; };
 		6D7FB03B279070DE00CC3AEC /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		6D7FB056279997CE00CC3AEC /* ProjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectObserver.swift; sourceTree = "<group>"; };
 		6D84EF29277B11EF00BF633B /* AddIssueScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIssueScreen.swift; sourceTree = "<group>"; };
 		6D84EF2C277C8D0F00BF633B /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		6D999C1427A9FC730010AED9 /* LicenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenceView.swift; sourceTree = "<group>"; };
 		6D9C073C278EE8BA00A6ECD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6DAA2DB9279C0BD100211ADF /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		6DAA2DBC279C2F4B00211ADF /* DatesObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesObserver.swift; sourceTree = "<group>"; };
@@ -126,9 +128,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D7FB02F278EEB8700CC3AEC /* FirebaseDatabase in Frameworks */,
+				6D999C1327A9FC1A0010AED9 /* AcknowList in Frameworks */,
 				6D7FB02B278EEB8700CC3AEC /* FirebaseAuth in Frameworks */,
 				6D7FB034278EEBDD00CC3AEC /* Introspect in Frameworks */,
-				6DDB176227A9F19B0060C3D0 /* spm-ack in Frameworks */,
 				6D7FB031278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta in Frameworks */,
 				6D7FB02D278EEB8700CC3AEC /* FirebaseAuthCombine-Community in Frameworks */,
 			);
@@ -140,7 +142,7 @@
 		6D431BFB2770B95D0067D951 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6D431C172771D1340067D951 /* ChangeView.swift */,
+				6D431C172771D1340067D951 /* RootView.swift */,
 				6DDB175027A746C10060C3D0 /* ProgressView */,
 				6D7FB035278EF08C00CC3AEC /* Login */,
 				6D431C002770EAD40067D951 /* Tabbar */,
@@ -150,7 +152,7 @@
 				6D7FB05B279AB6D700CC3AEC /* IssueSheet */,
 				6DAA2DBB279C2EEE00211ADF /* ShowDates */,
 				6DAA2DC2279C71FB00211ADF /* StatisticView */,
-				6D431C0D2770FE6E0067D951 /* ProfilView.swift */,
+				6D999C1827A9FFE00010AED9 /* ProfilView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,7 +160,7 @@
 		6D431C002770EAD40067D951 /* Tabbar */ = {
 			isa = PBXGroup;
 			children = (
-				6D431C192771D8FA0067D951 /* RootView.swift */,
+				6D431C192771D8FA0067D951 /* RootInsideView.swift */,
 				6DDB174B27A6E7710060C3D0 /* TabBarView.swift */,
 			);
 			path = Tabbar;
@@ -232,6 +234,15 @@
 				6D431BFE2770C06B0067D951 /* TimerView.swift */,
 			);
 			path = Timer;
+			sourceTree = "<group>";
+		};
+		6D999C1827A9FFE00010AED9 /* ProfilView */ = {
+			isa = PBXGroup;
+			children = (
+				6D431C0D2770FE6E0067D951 /* ProfilView.swift */,
+				6D999C1427A9FC730010AED9 /* LicenceView.swift */,
+			);
+			path = ProfilView;
 			sourceTree = "<group>";
 		};
 		6DAA2DBB279C2EEE00211ADF /* ShowDates */ = {
@@ -345,7 +356,7 @@
 				6D7FB02E278EEB8700CC3AEC /* FirebaseDatabase */,
 				6D7FB030278EEB8700CC3AEC /* FirebaseDatabaseSwift-Beta */,
 				6D7FB033278EEBDD00CC3AEC /* Introspect */,
-				6DDB176127A9F19B0060C3D0 /* spm-ack */,
+				6D999C1227A9FC1A0010AED9 /* AcknowList */,
 			);
 			productName = ClockWork;
 			productReference = 6DECD2CE2770900A007A13DD /* ClockWork.app */;
@@ -378,7 +389,7 @@
 			packageReferences = (
 				6D7FB029278EEB8700CC3AEC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6D7FB032278EEBDC00CC3AEC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
-				6DDB176027A9F19B0060C3D0 /* XCRemoteSwiftPackageReference "SwiftPackageAcknowledgement" */,
+				6D999C1127A9FC1A0010AED9 /* XCRemoteSwiftPackageReference "AcknowList" */,
 			);
 			productRefGroup = 6DECD2CF2770900A007A13DD /* Products */;
 			projectDirPath = "";
@@ -408,7 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D431C182771D1340067D951 /* ChangeView.swift in Sources */,
+				6D431C182771D1340067D951 /* RootView.swift in Sources */,
 				6D7FB04027907B3300CC3AEC /* Project.swift in Sources */,
 				6D84EF2D277C8D0F00BF633B /* Stopwatch.swift in Sources */,
 				6D431C0A2770EDA90067D951 /* IssuePageView.swift in Sources */,
@@ -427,7 +438,7 @@
 				6DAA2DBA279C0BD100211ADF /* DateExtension.swift in Sources */,
 				6D431C0E2770FE6F0067D951 /* ProfilView.swift in Sources */,
 				6DAB9DA12779B11200FEC0F2 /* View.swift in Sources */,
-				6D431C1A2771D8FA0067D951 /* RootView.swift in Sources */,
+				6D431C1A2771D8FA0067D951 /* RootInsideView.swift in Sources */,
 				6D7FB052279865D900CC3AEC /* ProgressViewStyle.swift in Sources */,
 				6DDB175827A9CCDB0060C3D0 /* GroupViewModal.swift in Sources */,
 				6DAA2DBD279C2F4B00211ADF /* DatesObserver.swift in Sources */,
@@ -440,6 +451,7 @@
 				6DDB174C27A6E7710060C3D0 /* TabBarView.swift in Sources */,
 				6DAA2DCB279C766300211ADF /* GroupUserObserver.swift in Sources */,
 				6D7FB04E27972A3D00CC3AEC /* EmptyProjectView.swift in Sources */,
+				6D999C1527A9FC730010AED9 /* LicenceView.swift in Sources */,
 				6DAB9D9F2778FA5300FEC0F2 /* IssueRootView.swift in Sources */,
 				6DDB16E1279EA8D40060C3D0 /* FirebaseErrors.swift in Sources */,
 				6DAA2DBF279C318D00211ADF /* ToggledDates.swift in Sources */,
@@ -695,12 +707,12 @@
 				kind = branch;
 			};
 		};
-		6DDB176027A9F19B0060C3D0 /* XCRemoteSwiftPackageReference "SwiftPackageAcknowledgement" */ = {
+		6D999C1127A9FC1A0010AED9 /* XCRemoteSwiftPackageReference "AcknowList" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/teufelaudio/SwiftPackageAcknowledgement.git";
+			repositoryURL = "https://github.com/vtourraine/AcknowList";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -731,10 +743,10 @@
 			package = 6D7FB032278EEBDC00CC3AEC /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
 		};
-		6DDB176127A9F19B0060C3D0 /* spm-ack */ = {
+		6D999C1227A9FC1A0010AED9 /* AcknowList */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6DDB176027A9F19B0060C3D0 /* XCRemoteSwiftPackageReference "SwiftPackageAcknowledgement" */;
-			productName = "spm-ack";
+			package = 6D999C1127A9FC1A0010AED9 /* XCRemoteSwiftPackageReference "AcknowList" */;
+			productName = AcknowList;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -19,10 +19,6 @@ final class GroupUserObserver: ObservableObject {
     @Published var groupUsers : [GroupUser] = []
     
     func observeUser(groupID: String) {
-        guard let currentUser = Auth.auth().currentUser else {
-            print("UserError")
-            return
-        }
         if !groupID.isEmpty {
             print("Observe groupUser")
             ref = ref.child("\(groupID)/user/")
