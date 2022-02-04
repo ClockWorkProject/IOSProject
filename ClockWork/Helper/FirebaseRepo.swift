@@ -19,6 +19,8 @@ class FirebaseRepo {
     private static let groupDB = Database.database().reference().child("groups")
     private static let usersDB = Database.database().reference().child("user")
     
+    
+//MARK: - USER
     static func addUser(onError: @escaping (_ errorMessage : String) -> Void, onSuccess: @escaping(_ user : User) -> Void) {
         guard let currentUser = Auth.auth().currentUser else {
             onError("User konnte nicht gespeichert werden. Loggen ise sich nochmal an")
@@ -38,7 +40,8 @@ class FirebaseRepo {
         }
         
     }
-    
+ 
+    //MARK: - Group
     static func addGroup(user: User, name: String, onSuccess: @escaping(_ groupID : String) -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
         
         guard let groupID = groupDB.childByAutoId().key else {
@@ -111,7 +114,7 @@ class FirebaseRepo {
         
     }
 
-    
+    //MARK: - Project
     static func addProjectToGroup(groupID: String, name: String, onSuccess: @escaping(_ project: Project) -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         print(groupID)
         let projectsRef = ref.child("\(groupPath)/\(groupID)/projects")
@@ -163,13 +166,17 @@ class FirebaseRepo {
         issueRef.updateChildValues(["issueState" : page.rawValue])
     }
     
+    
+    //MARK: - Timer
     static func addTime(groupID: String, startDate: Date,time: Double, issue: Issue, project: Project, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         guard let currentUser = Auth.auth().currentUser else {
             onError("User konnte nicht erstellt werden")
             return
         }
+        print("addTimer")
         let groupUserDateRef = ref.child("\(groupPath)/\(groupID)/user/\(currentUser.uid)/dates").child(startDate.getFormattedDate(format: dateFormat))
         
+        //Überprüfen ob es schon einen Tag gibt
         groupUserDateRef.getData(completion:  { error, snapshot in
             guard error == nil else {
                 onError(error?.localizedDescription ?? "sehr komischer Fehler")
@@ -177,15 +184,20 @@ class FirebaseRepo {
             }
             if snapshot.exists() {
                 // update Date
-                let value = snapshot.value as? NSDictionary
-                if let value = value?[(startDate.getFormattedDate(format: dateFormat))] as? NSDictionary {
                 
+                //gecaste um zum richtigen punkt zu kommen weil irgendwie nur der halbe pfad genommen wird
+               var value = snapshot.value as? [String: AnyObject]
+                value = value?[currentUser.uid] as? [String: AnyObject]
+                value = value?["dates"] as? [String: AnyObject]
+                if let value = value?[(startDate.getFormattedDate(format: dateFormat))] as? [String: AnyObject] {
+                    print("date exists")
                 guard let issueDict = value["issues"] as? NSDictionary else {
                     onError("key falsch benannt")
                     print(#file, "wrong keyname")
                     return
                 }
                 if let toggleIssue = issueDict[issue.id] as? NSDictionary {
+                    // Wenn issue schon exestiert
                     print("issue exists")
                     let issueTime =  Double(toggleIssue["issueTime"] as? String ?? "0") ?? 0
                     let issueUpdate = ["issueTime" : String((time + issueTime))]
@@ -193,8 +205,11 @@ class FirebaseRepo {
                     issueUpdateRef.updateChildValues(issueUpdate)
                 }
                 else {
+                    // Wenn issue noch nicht exestiert
+                    print("issue doesnt exist")
                     groupUserDateRef.child("issues").updateChildValues([issue.id : ["issueName": issue.name, "projectName": project.name, "issueTime" : String(time)]])
                 }
+                    // Update total Time
                 let totaltime = Double(value["totalTime"] as? String ?? "0") ?? 0
                 print(totaltime)
                 let update = ["totalTime": String((totaltime + time))]
@@ -205,6 +220,7 @@ class FirebaseRepo {
                 
             } else {
                 // create Date
+                print("create Date")
                 groupUserDateRef.setValue(["totalTime": String(time), "issues" : [ issue.id : ["issueName": issue.name, "projectName": project.name, "issueTime" : String(time)]]])
             }
             

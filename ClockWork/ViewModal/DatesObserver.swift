@@ -11,9 +11,8 @@ import FirebaseDatabaseSwift
 
 
 final class DateObserver: ObservableObject {
-    
 
-
+    // DateFormatter zum vergeleichen
     private let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
@@ -26,9 +25,9 @@ final class DateObserver: ObservableObject {
     private var newDateHandle: UInt = 0
     private var updateHandle: UInt = 0
     
-
     @Published var toggledDates: [ToggledDate] = []
     
+    //Observ Child Added
     func observeDates(groupID: String) {
         guard let currentUser = Auth.auth().currentUser else {
             print("UserError")
@@ -41,6 +40,7 @@ final class DateObserver: ObservableObject {
                         //replace old data
                         if let index = self.toggledDates.firstIndex(where: { $0.dateString ==  toggledDate.dateString}) {
                             self.toggledDates[index] = toggledDate
+                            // Sortier Array nach Datum neustes zuerst
                             self.toggledDates = self.toggledDates.sorted(by: {(date0,date1) -> Bool in
                                 return self.dateFormatter.date(from: date0.dateString) ?? Date() > self.dateFormatter.date(from: date1.dateString) ?? Date()
                             })
@@ -48,8 +48,8 @@ final class DateObserver: ObservableObject {
                         // if not exist
                         else if !self.toggledDates.contains(toggledDate) {
                             self.toggledDates.append(toggledDate)
+                            // Sortier Array nach Datum neustes zuerst
                             self.toggledDates = self.toggledDates.sorted(by: {(date0,date1) -> Bool in
-
                                 return self.dateFormatter.date(from: date0.dateString) ?? Date() > self.dateFormatter.date(from: date1.dateString) ?? Date()
                             })
                         }
@@ -63,6 +63,9 @@ final class DateObserver: ObservableObject {
                 if let toggledDate = ToggledDate(snapshot: snapshot) {
                     if let index = self.toggledDates.firstIndex(where: { $0.dateString == toggledDate.dateString }) {
                         self.toggledDates[index] = toggledDate
+                        self.toggledDates = self.toggledDates.sorted(by: {(date0,date1) -> Bool in
+                            return self.dateFormatter.date(from: date0.dateString) ?? Date() > self.dateFormatter.date(from: date1.dateString) ?? Date()
+                        })
                     }
                 }
             })

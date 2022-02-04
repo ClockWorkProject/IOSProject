@@ -31,8 +31,20 @@ struct StatisticView: View {
                     .padding(16)
                 Spacer()
             }
+        }.toolbar {
+            ToolbarItem() {
+                Menu {
+                    Button(action: actionSheet) {
+                        Text("Kopiere Gruppen ID")
+                    }
+                }
+            label: {
+                Label("Menu", systemImage: "ellipsis")
+            }
+            }
         }
         .navigationBarTitle("Statistiken", displayMode: .inline)
+        //Sheet mit Tagesdaten der User
         .sheet(item: self.$groupUser) {item in
             NavigationView{
                 ScrollView{
@@ -48,6 +60,13 @@ struct StatisticView: View {
                 }
             }
             
+        }
+    }
+    
+    func actionSheet() {
+        if let groupID = AuthentificationViewModel.shared.logdInUser?.groupID {
+            let activityVC = UIActivityViewController(activityItems: [groupID], applicationActivities: nil)
+            UIApplication.shared.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
         }
     }
 }

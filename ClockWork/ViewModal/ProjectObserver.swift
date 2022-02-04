@@ -20,8 +20,9 @@ final class ProjectObserver: ObservableObject {
     private var newProjectHandle: UInt = 0
     private var updateHandle: UInt = 0
     
+    // lade Projects einmal um gespeichertes Projekt zu laden und überprüfen
     private func loadAllProjects( onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void) {
-        
+        //lade Projekte
         ref.getData(completion: { error, snapshot in
             guard let children = snapshot.children.allObjects as? [DataSnapshot] else {
                 onError("Snapshot Error")
@@ -35,21 +36,25 @@ final class ProjectObserver: ObservableObject {
                 }
                 return project
             }
+            //Project ist nicht leer
             if !self.projects.isEmpty {
+                // Wenn es ein gespeicherte ID gibt
                 if let savedID = UserDefaults.standard.string(forKey: "savedProjectId") {
+                    //Wenn gespeichertes Projekt vorhanden
                     if let loadedProject = self.projects.first(where:{ $0.id == savedID }) {
                         print("savedProject found")
                         self.savedProject = loadedProject
                         onSuccess()
                         self.isLoaded = true
                     } else {
+                        // Wenn es  gespeichertes Projekt nicht mehr vorhanden ist, setzt erstes Projekt als gespeichertes Projekt
                         print("no saved Project found")
                         self.savedProject = self.projects[0]
                         UserDefaults.standard.set(self.savedProject?.id,forKey: "savedProjectId")
                         onSuccess()
                         self.isLoaded = true
                     }
-                }
+                }// kein gespeichertes Projekt setzt erstes Projekt als gespeichertes Projekt
                 else {
                     print("nosavedProject")
                     self.savedProject = self.projects[0]
@@ -58,6 +63,7 @@ final class ProjectObserver: ObservableObject {
                     self.isLoaded = true
                 }
             }
+            // Wenn es kein Projekt gibt
             else {
                 print("Empty")
                 onSuccess()
@@ -65,7 +71,9 @@ final class ProjectObserver: ObservableObject {
             }
         })
     }
+    // child Add und child updated Listener
     private func observeAddandUpdate() {
+        // Added
         self.newProjectHandle = self.ref.observe(.childAdded, with: { snapshot in
                 print("Project load")
                 if let project = Project(snapshot: snapshot) {
@@ -84,7 +92,7 @@ final class ProjectObserver: ObservableObject {
                     self.projects.sort{$0.name.localizedCompare($1.name) == .orderedAscending}
                 }
             })
-            print("aus cildAdded draußen")
+        // Update
         self.updateHandle = self.ref.observe(.childChanged, with: { snapshot in
             print("update")
                 if let project = Project(snapshot: snapshot) {
@@ -99,6 +107,7 @@ final class ProjectObserver: ObservableObject {
                
             })
     }
+    // lade erst einmal alle Projekte um gespeichertes Projekt zu laden
     func observeProjects(groupID: String){
         if !groupID.isEmpty {
         ref = Database.database().reference().child("groups/\(groupID)/projects")
@@ -113,7 +122,7 @@ final class ProjectObserver: ObservableObject {
             print("no groupID")
         }
     }
-    
+    //create Project
     func createProject(name: String, groupId: String) {
         FirebaseRepo.addProjectToGroup(groupID: groupId, name: name, onSuccess: { project in
             self.savedProject = project
@@ -123,9 +132,9 @@ final class ProjectObserver: ObservableObject {
         })
     }
     
-    
+    //Wenn Klasse zerstörrt stoppe Listener
     deinit {
-        print("removeIssueListener")
+        print("removeProjectListener")
         ref.removeObserver(withHandle: updateHandle)
         ref.removeObserver(withHandle: newProjectHandle)
     }

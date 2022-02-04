@@ -45,6 +45,7 @@ extension Stopwatch {
         
         message = ""
 
+        // Timer tickt jede Sekunde
         timer = Timer
             .publish(every: 1, on: .main, in: .common)
             .autoconnect()
@@ -55,6 +56,8 @@ extension Stopwatch {
                 else { return }
 
                 let now = Date()
+                
+                // zeit difference zwischen jetzt und starttime
                 let elapsed = now.timeIntervalSince(startTime)
 
                 let (h, m, s) = self.secondsToHoursMinutesSeconds(elapsed)
@@ -67,6 +70,7 @@ extension Stopwatch {
     func stop() {
         if let groupID  = AuthentificationViewModel.shared.logdInUser?.groupID {
             if let startTime = startTime, let issue = issue, let project = project {
+                //Speichere Time beim Stoppen
             FirebaseRepo.addTime(groupID: groupID, startDate: startTime, time: Date().timeIntervalSince(startTime), issue: issue, project: project, onSuccess: {print("Zeit gespeichert")}, onError: { errorMessage in print(errorMessage)})
             }
             timer?.cancel()
@@ -85,6 +89,7 @@ extension Stopwatch {
 
 // MARK: - Private implementation
 
+// lade und speicher startzeit issue und Projekt
 private extension Stopwatch {
     func saveStartTime() {
         if let startTime = startTime {
@@ -112,6 +117,7 @@ private extension Stopwatch {
         }
     }
     func fetchRunningIssue() -> Issue?{
+        print("Lade Issue")
         if let savedIssue = UserDefaults.standard.object(forKey: "SavedIssue") as? Data {
             let decoder = JSONDecoder()
             return try? decoder.decode(Issue.self, from: savedIssue)
@@ -121,6 +127,7 @@ private extension Stopwatch {
         }
     }
     func fetchRunningProject() -> Project?{
+        print("Lade Issue")
         if let savedProject = UserDefaults.standard.object(forKey: "SavedProject") as? Data {
             let decoder = JSONDecoder()
             return try? decoder.decode(Project.self, from: savedProject)
@@ -138,6 +145,7 @@ private extension Stopwatch {
     func fetchStartTime() -> Date? {
         UserDefaults.standard.object(forKey: "startTime") as? Date
     }
+    // rechne Double zu sekunden Min und Stunden
     func secondsToHoursMinutesSeconds(_ seconds: Double) -> (Int, Int, Int) {
         return (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)
     }

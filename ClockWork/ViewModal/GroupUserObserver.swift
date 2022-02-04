@@ -28,12 +28,11 @@ final class GroupUserObserver: ObservableObject {
                     //replace old data
                     if let index = self.groupUsers.firstIndex(where: { $0.id ==  groupUser.id}) {
                         self.groupUsers[index] = groupUser
-             //           self.toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
                     }
                     // if not exist
                     else if !self.groupUsers.contains(groupUser) {
                         self.groupUsers.append(groupUser)
-                        //self.groupUsers.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
+ 
                     }
                     else {
                         print("contains")
@@ -48,7 +47,6 @@ final class GroupUserObserver: ObservableObject {
                     }
                 }
             })
-            //toggledDates.sort{$0.dateString.localizedCompare($1.dateString) == .orderedDescending}
 
         }
         else {

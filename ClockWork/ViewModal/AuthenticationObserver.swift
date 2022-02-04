@@ -23,11 +23,10 @@ final class AuthentificationViewModel: ObservableObject {
     
     // Überwacht Authentifizierung.
     func loginListener() {
-       Auth.auth().addStateDidChangeListener { auth, user in
+        Auth.auth().addStateDidChangeListener { auth, user in
             if let user = user {
                 // Wenn eingeloggt wird der User aus Datenbank aufgerufen:
                 self.usersDB.child(user.uid).observe( .value, with: { (snapshot) in
-                    print("oh")
                     // wenn Nutzer noch nicht exestiert
                     if !snapshot.exists() {
                         self.addUser()
@@ -35,7 +34,7 @@ final class AuthentificationViewModel: ObservableObject {
                         // Wenn Nutzer schon exestiert
                         self.loadUser(snapshot: snapshot)
                     }
-             })
+                })
                 //Wenn ausgeloggt state loggout
             } else {
                 self.loginState = .loggedOut
@@ -43,34 +42,34 @@ final class AuthentificationViewModel: ObservableObject {
         }
     }
     
-
+    
     
     //MARK: - Login
     func logIn(password: String ) {
         self.email = email
         Auth.auth().signIn(withEmail: email, password: password) { (authData, error) in
-                    if let error = error{
-                        guard let errorCode = AuthErrorCode(rawValue: error._code) else {
-                            print(#file,#line, "Error error")
-                            return
-                        }
-                        self.loginState = .error(errorCode.errorMessage)
-                       return
-                    }
-               }
+            if let error = error{
+                guard let errorCode = AuthErrorCode(rawValue: error._code) else {
+                    print(#file,#line, "Error error")
+                    return
+                }
+                self.loginState = .error(errorCode.errorMessage)
+                return
+            }
+        }
     }
     //MARK: - SignUp
     func signUpUser(password: String) {
-          Auth.auth().createUser(withEmail: email, password: password) { (authData, error) in
-              if let error = error{
-                  // Läd die ErrorMessage aus der App
-                  guard let errorCode = AuthErrorCode(rawValue: error._code) else {
-                      print(#file,#line, "Error error")
-                      return
-                  }
-                  self.loginState = .error(errorCode.errorMessage)
-              }
-             
+        Auth.auth().createUser(withEmail: email, password: password) { (authData, error) in
+            if let error = error{
+                // Läd die ErrorMessage aus der App
+                guard let errorCode = AuthErrorCode(rawValue: error._code) else {
+                    print(#file,#line, "Error error")
+                    return
+                }
+                self.loginState = .error(errorCode.errorMessage)
+            }
+            
         }
     }
     //MARK: - LogOut
@@ -84,7 +83,7 @@ final class AuthentificationViewModel: ObservableObject {
         } catch {
             
         }
-            
+        
     }
     
     // MARK: - LoadUser
@@ -97,7 +96,7 @@ final class AuthentificationViewModel: ObservableObject {
             let groupID = value["groupID"] as? String
         else {
             // Wenn Keys falsch bennant wurden
-            self.loginState = .error("Fehler beim laden des Users. Sie wurden ausgeloggt")
+            self.loginState = .error("Fehler beim Laden des Users. Sie wurden ausgeloggt")
             return
         }
         self.logdInUser = User(id: snapshot.key, username: name, groupID: groupID)
@@ -127,7 +126,7 @@ final class AuthentificationViewModel: ObservableObject {
         }
         
     }
-
+    
     //MARK: - AddUser
     // Ruft Add User aus der Repo auf
     private func addUser() {
@@ -139,7 +138,5 @@ final class AuthentificationViewModel: ObservableObject {
             self.loginState = .loggedIn
         })
     }
-    
-    
     
 }

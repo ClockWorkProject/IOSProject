@@ -11,6 +11,7 @@ final class GroupViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
+    // Gruppe erstellen
     func addGroup(name: String) {
         if let user = AuthentificationViewModel.shared.logdInUser {
             FirebaseRepo.addGroup(user:  user, name: name, onSuccess: {groupID in
@@ -24,6 +25,7 @@ final class GroupViewModel: ObservableObject {
             errorMessage = "Kein User angemeldet starten sie die App neu"
         }
     }
+    // Gruppe beitreten
     func enterGroup(groupID: String) {
         if let user = AuthentificationViewModel.shared.logdInUser {
             FirebaseRepo.enterGroup(user: user, groupID: groupID, onSuccess: { groupID in 
