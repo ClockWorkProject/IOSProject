@@ -48,7 +48,6 @@ class FirebaseRepo {
             onError("Gruppe konnte nicht erstellt werden")
             return
         }
-        
         let group = WorkGroup(id: groupID, name: name)
         do {
             try groupDB.child("\(groupID)").setValue(from: group)
@@ -78,19 +77,19 @@ class FirebaseRepo {
                 return
             }
             if snapshot.exists() {
-            print(snapshot.exists())
+                print(snapshot.exists())
                 self.groupDB.child("\(groupID)/user/\(user.id)").setValue(["role": "member" ,"name": user.username]) {
-                                (error:Error?, ref:DatabaseReference) in
-                                if let error = error {
-                                    onError(error.localizedDescription)
-                                } else {
-                                    self.addUserToGroup(user: user, groupID: groupID, onSuccess: {
-                                        onSuccess(groupID)
-                                    }, onError: { errorMessage in
-                                        onError(errorMessage)
-                                    })
-                                }
-                            }
+                    (error:Error?, ref:DatabaseReference) in
+                    if let error = error {
+                        onError(error.localizedDescription)
+                    } else {
+                        self.addUserToGroup(user: user, groupID: groupID, onSuccess: {
+                            onSuccess(groupID)
+                        }, onError: { errorMessage in
+                            onError(errorMessage)
+                        })
+                    }
+                }
             }
             else {
                 print("nope")
@@ -102,7 +101,6 @@ class FirebaseRepo {
     static func addUserToGroup(user: User,groupID: String, onSuccess: @escaping() -> Void, onError: @escaping (_ errorMessage : String) -> Void ) {
         
         let update = ["\(user.id)/groupID": groupID]
-                      
         usersDB.updateChildValues(update) {
             (error:Error?, ref:DatabaseReference) in
             if let error = error {

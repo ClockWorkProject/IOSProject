@@ -49,7 +49,6 @@ struct RootInsideView: View {
                     }// Wenn erscheine suche überwache gruppen elemente
                     .onAppear(perform: {
                         if let  groupID = authObserver.logdInUser?.groupID, !groupID.isEmpty{
-                            
                             projectObserver.observeProjects(groupID: groupID)
                             groupUserObserver.observeUser(groupID: groupID)
                             dateObserver.observeDates(groupID: groupID)
