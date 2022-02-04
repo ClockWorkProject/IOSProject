@@ -9,12 +9,12 @@
 - Speichern der Zeiten
 - Als Admin Zeiten der Mitarbeiter sehen
 
-#Genutzte Frameworks:
+# Genutzte Frameworks:
   * https://github.com/firebase/firebase-ios-sdk
   * https://github.com/siteline/SwiftUI-Introspect
   * https://github.com/vtourraine/AcknowList
   
-#Vorrausetzung 
+# Vorrausetzung 
  - IOS 14
  - XCode 
  - Swift 5
